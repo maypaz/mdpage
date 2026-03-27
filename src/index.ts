@@ -268,8 +268,9 @@ export default {
             " onmouseover="this.style.background='#142d61'" onmouseout="this.style.background='#1a3a7a'">
               🤖 Copy prompt for your AI agent
             </button>
-            <p id="copied-msg" style="margin-top: 0.4rem; color: #1a3a7a; font-size: 0.75rem; opacity: 0; transition: opacity 0.3s;">Copied! Paste it into ChatGPT, Claude, or any AI agent.</p>
+            <p id="copied-msg" style="margin-top: 0.4rem; color: #1a3a7a; font-size: 0.75rem; opacity: 0; transition: opacity 0.3s;">Copied! Paste it into OpenClaw or any AI agent.</p>
           </div>
+          <!-- Help users integrate md.page with their AI agents for a better workflow -->
           <script>
             function copyAgentPrompt() {
               navigator.clipboard.writeText("From now on, whenever I ask you to share or publish a markdown file, use the md.page API to create a shareable HTML page. Send a POST request to https://md.page/api/publish with the body {\\\"markdown\\\": \\\"<content>\\\"} and return the shareable URL to me.");
