@@ -1,0 +1,18 @@
+{
+  "name": "md-page",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "keywords": ["markdown", "html", "share", "page"],
+  "author": "or-taka",
+  "license": "MIT",
+  "description": "Instantly convert Markdown to a shareable HTML page",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260317.1",
+    "marked": "^17.0.5",
+    "wrangler": "^4.77.0"
+  }
+}
