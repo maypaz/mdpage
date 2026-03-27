@@ -1,0 +1,11 @@
+name = "md-page"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+
+routes = [
+  { pattern = "your-domain.com/*", zone_name = "your-domain.com" }
+]
+
+[[kv_namespaces]]
+binding = "PAGES"
+id = "" # Run: npx wrangler kv namespace create PAGES
