@@ -79,17 +79,6 @@ const HTML_TEMPLATE = (content: string, title = "md.page", description = "Instan
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${safeTitle}">
-
-    // OG image (PNG for WhatsApp/social)
-    if (url.pathname === "/og-image.png") {
-      const bytes = Uint8Array.from(atob(OG_IMAGE_PNG_B64), c => c.charCodeAt(0));
-      return new Response(bytes, {
-        headers: {
-          "Content-Type": "image/png",
-          "Cache-Control": "public, max-age=86400",
-        },
-      });
-    }
   <meta name="twitter:description" content="${safeDesc}">
   <meta name="twitter:image" content="https://md.page/og-image.svg">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -285,11 +274,22 @@ export default {
       });
     }
 
-    // OG image
+    // OG image (SVG)
     if (url.pathname === "/og-image.svg") {
       return new Response(OG_IMAGE_SVG, {
         headers: {
           "Content-Type": "image/svg+xml",
+          "Cache-Control": "public, max-age=86400",
+        },
+      });
+    }
+
+    // OG image (PNG for WhatsApp/social)
+    if (url.pathname === "/og-image.png") {
+      const bytes = Uint8Array.from(atob(OG_IMAGE_PNG_B64), c => c.charCodeAt(0));
+      return new Response(bytes, {
+        headers: {
+          "Content-Type": "image/png",
           "Cache-Control": "public, max-age=86400",
         },
       });
