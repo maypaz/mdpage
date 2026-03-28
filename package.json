@@ -4,15 +4,24 @@
   "main": "index.js",
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
-  "keywords": ["markdown", "html", "share", "page"],
+  "keywords": [
+    "markdown",
+    "html",
+    "share",
+    "page"
+  ],
   "author": "or-taka",
   "license": "MIT",
   "description": "Instantly convert Markdown to a shareable HTML page",
   "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.13.5",
     "@cloudflare/workers-types": "^4.20260317.1",
     "marked": "^17.0.5",
+    "vitest": "^4.1.2",
     "wrangler": "^4.77.0"
   }
 }

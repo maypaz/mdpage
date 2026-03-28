@@ -8,13 +8,13 @@ const TTL = 86400; // 24 hours
 const ID_LENGTH = 6;
 const ID_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-function generateId(): string {
+export function generateId(): string {
   const bytes = new Uint8Array(ID_LENGTH);
   crypto.getRandomValues(bytes);
   return Array.from(bytes, (b) => ID_CHARS[b % ID_CHARS.length]).join("");
 }
 
-function extractMeta(markdown: string): { title: string; description: string } {
+export function extractMeta(markdown: string): { title: string; description: string } {
   const titleMatch = markdown.match(/^#\s+(.+)$/m);
   const title = titleMatch ? titleMatch[1].trim() : "md.page";
   const plainText = markdown
