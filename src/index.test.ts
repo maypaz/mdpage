@@ -136,13 +136,17 @@ describe("Worker", () => {
       expect(res.headers.get("Access-Control-Allow-Origin")).toBe("*");
     });
 
-    it("stores the markdown in KV", async () => {
-      const md = "# Stored\nVerify it persists";
-      const res = await publish(md);
+    it("stores rendered HTML in KV", async () => {
+      const markdown = "# Stored\nVerify it persists";
+      const res = await publish(markdown);
       const { url } = await res.json<{ url: string }>();
       const id = url.split("/").pop()!;
 
-      expect(await env.PAGES.get(id)).toBe(md);
+      const stored = JSON.parse((await env.PAGES.get(id))!);
+      expect(stored.html).toContain("<h1>Stored</h1>");
+      expect(stored.html).toContain("Verify it persists");
+      expect(stored.title).toBe("Stored");
+      expect(stored.description).toContain("Verify it persists");
     });
 
     it("returns 400 when markdown field is missing", async () => {
@@ -211,8 +215,8 @@ describe("Worker", () => {
   // -- GET /:id ------------------------------------------------------------
 
   describe("GET /:id", () => {
-    it("renders stored markdown as HTML", async () => {
-      await env.PAGES.put("aB3xZ9", "# Hello\nParagraph text");
+    it("renders stored HTML", async () => {
+      await env.PAGES.put("aB3xZ9", JSON.stringify({ html: "<h1>Hello</h1>\n<p>Paragraph text</p>\n", title: "Hello", description: "Paragraph text" }));
 
       const res = await exports.default.fetch(
         new Request("https://md.page/aB3xZ9")
@@ -225,8 +229,8 @@ describe("Worker", () => {
       expect(html).toContain("Paragraph text");
     });
 
-    it("populates meta tags from markdown content", async () => {
-      await env.PAGES.put("mEtA01", "# My Title\nDescription text here");
+    it("populates meta tags from stored metadata", async () => {
+      await env.PAGES.put("mEtA01", JSON.stringify({ html: "<p>Description text here</p>\n", title: "My Title", description: "Description text here" }));
 
       const res = await exports.default.fetch(
         new Request("https://md.page/mEtA01")
@@ -237,7 +241,7 @@ describe("Worker", () => {
     });
 
     it("sets X-Robots-Tag: noindex", async () => {
-      await env.PAGES.put("rObOts", "# Test");
+      await env.PAGES.put("rObOts", JSON.stringify({ html: "<h1>Test</h1>\n", title: "Test", description: "" }));
       const res = await exports.default.fetch(
         new Request("https://md.page/rObOts")
       );
@@ -245,7 +249,7 @@ describe("Worker", () => {
     });
 
     it("sets Cache-Control: no-store", async () => {
-      await env.PAGES.put("noCach", "# Test");
+      await env.PAGES.put("noCach", JSON.stringify({ html: "<h1>Test</h1>\n", title: "Test", description: "" }));
       const res = await exports.default.fetch(
         new Request("https://md.page/noCach")
       );
@@ -281,7 +285,7 @@ describe("Worker", () => {
     });
 
     it("escapes HTML in meta tags to prevent injection", async () => {
-      await env.PAGES.put("xSs0Ok", '# A "tricky" <title>\nBody');
+      await env.PAGES.put("xSs0Ok", JSON.stringify({ html: "<p>Body</p>\n", title: 'A "tricky" <title>', description: "Body" }));
 
       const res = await exports.default.fetch(
         new Request("https://md.page/xSs0Ok")

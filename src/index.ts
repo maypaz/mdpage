@@ -1,4 +1,6 @@
-import { marked } from "marked";
+import MarkdownIt from "markdown-it";
+
+const md = new MarkdownIt({ html: false });
 
 interface Env {
   PAGES: KVNamespace;
@@ -212,8 +214,10 @@ export default {
 
         const id = generateId();
         const expiresAt = new Date(Date.now() + TTL * 1000).toISOString();
+        const meta = extractMeta(body.markdown);
+        const renderedHtml = md.render(body.markdown);
 
-        await env.PAGES.put(id, body.markdown, { expirationTtl: TTL });
+        await env.PAGES.put(id, JSON.stringify({ html: renderedHtml, title: meta.title, description: meta.description }), { expirationTtl: TTL });
 
         const pageUrl = `${url.origin}/${id}`;
 
@@ -233,17 +237,17 @@ export default {
     const pageMatch = url.pathname.match(/^\/([a-zA-Z0-9]{6})$/);
     if (pageMatch && request.method === "GET") {
       const id = pageMatch[1];
-      const markdown = await env.PAGES.get(id);
+      const stored = await env.PAGES.get(id);
 
-      if (!markdown) {
+      if (!stored) {
         return new Response("Page not found or expired.", {
           status: 404,
           headers: { "Content-Type": "text/plain", "X-Robots-Tag": "noindex" },
         });
       }
 
-      const meta = extractMeta(markdown);
-      const html = HTML_TEMPLATE(await marked.parse(markdown), meta.title, meta.description);
+      const page = JSON.parse(stored) as { html: string; title: string; description: string };
+      const html = HTML_TEMPLATE(page.html, page.title, page.description);
 
       return new Response(html, {
         headers: {

@@ -129,7 +129,7 @@ npm run dev
 
 - **Runtime:** [Cloudflare Workers](https://workers.cloudflare.com/)
 - **Storage:** [Cloudflare KV](https://developers.cloudflare.com/kv/)
-- **Markdown:** [marked](https://github.com/markedjs/marked)
+- **Markdown:** [markdown-it](https://github.com/markdown-it/markdown-it)
 
 ## Contributing
 
