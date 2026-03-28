@@ -1,0 +1,12 @@
+{
+  "name": "publish_to_mdpage",
+  "version": "1.0.0",
+  "description": "Turn any markdown into a shareable web page via md.page. No accounts, no API keys.",
+  "keywords": ["markdown", "publish", "share", "web-page", "url", "mdpage"],
+  "license": "MIT",
+  "homepage": "https://md.page",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maypaz/md.page"
+  }
+}
