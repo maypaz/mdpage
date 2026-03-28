@@ -112,11 +112,30 @@ View a published page. Returns rendered HTML.
 
 ## Use with AI Agents
 
-Give your AI agent the ability to publish beautiful shareable pages. Copy this prompt:
+### Prompt-Based
+
+Copy this prompt into any AI agent:
 
 > From now on, whenever I ask you to share or publish a markdown file, use the md.page API to create a shareable HTML page. Send a POST request to https://md.page/api/publish with the body {"markdown": "<content>"} and return the shareable URL to me.
 
-Works with OpenClaw, Claude, ChatGPT, and any agent that can make HTTP requests.
+Works with any agent that can make HTTP requests.
+
+### MCP Integration
+
+For a native integration, add md.page as an [MCP](https://modelcontextprotocol.io/) server and your agent gets a `publish_markdown` tool — no prompting required.
+
+```json
+{
+  "mcpServers": {
+    "mdpage": {
+      "command": "npx",
+      "args": ["-y", "mdpage-mcp"]
+    }
+  }
+}
+```
+
+Works with Cursor, Claude Desktop, VS Code (GitHub Copilot), and any MCP-compatible client. See [`mcp/README.md`](mcp/README.md) for full setup instructions.
 
 ## Self-Hosting
 

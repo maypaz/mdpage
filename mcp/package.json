@@ -1,0 +1,40 @@
+{
+  "name": "mdpage-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for md.page — give AI agents the ability to publish markdown as beautiful shareable web pages",
+  "type": "module",
+  "bin": {
+    "mdpage-mcp": "./build/index.js"
+  },
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "build": "tsc && chmod 755 build/index.js",
+    "dev": "tsc --watch"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "markdown",
+    "mdpage",
+    "ai-agents",
+    "llm",
+    "tools"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maypaz/mdpage.git",
+    "directory": "mcp"
+  },
+  "homepage": "https://md.page",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.8.0"
+  }
+}
