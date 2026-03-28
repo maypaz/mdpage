@@ -8,13 +8,21 @@ const TTL = 86400; // 24 hours
 const ID_LENGTH = 6;
 const ID_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-function generateId(): string {
+export function generateId(): string {
   const bytes = new Uint8Array(ID_LENGTH);
   crypto.getRandomValues(bytes);
   return Array.from(bytes, (b) => ID_CHARS[b % ID_CHARS.length]).join("");
 }
 
-function extractMeta(markdown: string): { title: string; description: string } {
+export function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+export function extractMeta(markdown: string): { title: string; description: string } {
   const titleMatch = markdown.match(/^#\s+(.+)$/m);
   const title = titleMatch ? titleMatch[1].trim() : "md.page";
   const plainText = markdown
@@ -39,18 +47,21 @@ const OG_IMAGE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" heigh
   <polyline points="860,200 960,315 860,430" fill="none" stroke="#1a3a7a" stroke-width="38" stroke-linecap="square" stroke-linejoin="miter"/>
 </svg>`;
 
-const HTML_TEMPLATE = (content: string, title = "md.page", description = "Instantly convert Markdown to a shareable HTML page.") => `<!DOCTYPE html>
+const HTML_TEMPLATE = (content: string, title = "md.page", description = "Instantly convert Markdown to a shareable HTML page.") => {
+  const safeTitle = escapeHtml(title);
+  const safeDesc = escapeHtml(description);
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <title>${title}</title>
-  <meta name="description" content="${description}">
+  <title>${safeTitle}</title>
+  <meta name="description" content="${safeDesc}">
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="${title}">
-  <meta property="og:description" content="${description}">
+  <meta property="og:title" content="${safeTitle}">
+  <meta property="og:description" content="${safeDesc}">
   <meta property="og:image" content="https://md.page/og-image.svg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -58,8 +69,8 @@ const HTML_TEMPLATE = (content: string, title = "md.page", description = "Instan
   <meta property="og:site_name" content="md.page">
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${title}">
-  <meta name="twitter:description" content="${description}">
+  <meta name="twitter:title" content="${safeTitle}">
+  <meta name="twitter:description" content="${safeDesc}">
   <meta name="twitter:image" content="https://md.page/og-image.svg">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <style>
@@ -130,6 +141,7 @@ const HTML_TEMPLATE = (content: string, title = "md.page", description = "Instan
   </div>
 </body>
 </html>`;
+};
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
