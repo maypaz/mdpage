@@ -2,3 +2,4 @@ node_modules/
 .wrangler/
 .DS_Store
 wrangler.toml
+mcp/build/
