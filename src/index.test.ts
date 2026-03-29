@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { env, exports } from "cloudflare:workers";
-import { generateId, extractMeta, escapeHtml } from "./index";
+import { generateId, extractMeta, escapeHtml, stripMarkdownInline } from "./index";
 
 declare module "cloudflare:workers" {
   namespace Cloudflare {
@@ -82,6 +82,28 @@ describe("extractMeta", () => {
       "A page created with md.page"
     );
   });
+
+  it("strips bold from title", () => {
+    expect(extractMeta("# Hello **World**").title).toBe("Hello World");
+  });
+
+  it("strips links from title", () => {
+    expect(extractMeta("# Check [this](https://x.com) out").title).toBe(
+      "Check this out"
+    );
+  });
+
+  it("strips inline code from title", () => {
+    expect(extractMeta("# Using `npm install`").title).toBe(
+      "Using npm install"
+    );
+  });
+
+  it("strips images from title", () => {
+    expect(extractMeta("# Logo ![icon](icon.png) App").title).toBe(
+      "Logo icon App"
+    );
+  });
 });
 
 describe("escapeHtml", () => {
@@ -93,6 +115,46 @@ describe("escapeHtml", () => {
 
   it("returns the same string when no special characters are present", () => {
     expect(escapeHtml("Hello World")).toBe("Hello World");
+  });
+});
+
+describe("stripMarkdownInline", () => {
+  it("strips bold markers", () => {
+    expect(stripMarkdownInline("Hello **World**")).toBe("Hello World");
+    expect(stripMarkdownInline("Hello __World__")).toBe("Hello World");
+  });
+
+  it("strips italic markers", () => {
+    expect(stripMarkdownInline("Hello *World*")).toBe("Hello World");
+    expect(stripMarkdownInline("Hello _World_")).toBe("Hello World");
+  });
+
+  it("strips inline code", () => {
+    expect(stripMarkdownInline("Use `npm install`")).toBe("Use npm install");
+  });
+
+  it("strips strikethrough", () => {
+    expect(stripMarkdownInline("~~removed~~ kept")).toBe("removed kept");
+  });
+
+  it("extracts link text and drops URLs", () => {
+    expect(stripMarkdownInline("Check [this link](https://x.com)")).toBe(
+      "Check this link"
+    );
+  });
+
+  it("extracts image alt text and drops URLs", () => {
+    expect(stripMarkdownInline("![logo](https://x.com/img.png)")).toBe("logo");
+  });
+
+  it("handles combined formatting", () => {
+    expect(
+      stripMarkdownInline("**Bold** and [link](url) and `code`")
+    ).toBe("Bold and link and code");
+  });
+
+  it("returns plain text unchanged", () => {
+    expect(stripMarkdownInline("Just plain text")).toBe("Just plain text");
   });
 });
 
@@ -305,6 +367,36 @@ describe("Worker", () => {
       expect(html).toContain(
         'og:title" content="A &quot;tricky&quot; &lt;title&gt;"'
       );
+    });
+
+    it("uses PNG format for og:image, not SVG", async () => {
+      await env.PAGES.put("oPnG01", JSON.stringify({ html: "<p>Test</p>\n", title: "Test", description: "Test" }));
+      const res = await exports.default.fetch(
+        new Request("https://md.page/oPnG01")
+      );
+      const html = await res.text();
+      expect(html).toContain('og:image" content="https://md.page/og-image.png"');
+      expect(html).not.toContain('og:image" content="https://md.page/og-image.svg"');
+      expect(html).toContain('twitter:image" content="https://md.page/og-image.png"');
+    });
+
+    it("sets og:url to the actual page URL, not the homepage", async () => {
+      await env.PAGES.put("oGrL01", JSON.stringify({ html: "<p>Test</p>\n", title: "Test", description: "Test" }));
+      const res = await exports.default.fetch(
+        new Request("https://md.page/oGrL01")
+      );
+      const html = await res.text();
+      expect(html).toContain('og:url" content="https://md.page/oGrL01"');
+    });
+
+    it("derives og:image and og:url from request origin for self-hosted instances", async () => {
+      await env.PAGES.put("sElF01", JSON.stringify({ html: "<p>Test</p>\n", title: "Test", description: "Test" }));
+      const res = await exports.default.fetch(
+        new Request("https://docs.mycompany.com/sElF01")
+      );
+      const html = await res.text();
+      expect(html).toContain('og:image" content="https://docs.mycompany.com/og-image.png"');
+      expect(html).toContain('og:url" content="https://docs.mycompany.com/sElF01"');
     });
   });
 
