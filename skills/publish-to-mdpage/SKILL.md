@@ -1,5 +1,5 @@
 ---
-name: publish_to_mdpage
+name: publish-to-mdpage
 description: Turn any markdown into a shareable web page via md.page. Use when the user asks to "share this", "publish this markdown", "create a shareable link", "make this a web page", "send this as a link", "host this", or wants to turn any markdown content into a URL. Also triggers on "publish a report", "share my notes", "create a page", or any request to make content accessible via a link.
 ---
 
