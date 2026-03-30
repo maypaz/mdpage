@@ -6,6 +6,10 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "test": "vitest run",
+    "test:domain": "vitest run src/domain/id.test.ts src/domain/html.test.ts src/domain/markdown.test.ts src/domain/og.test.ts",
+    "test:routes-api": "vitest run src/routes/api-routes.test.ts",
+    "test:routes-pages": "vitest run src/routes/page-routes.test.ts",
+    "test:routes-static": "vitest run src/routes/static-routes.test.ts",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit"
   },
