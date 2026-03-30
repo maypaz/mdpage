@@ -131,6 +131,18 @@ npm run dev
 - **Storage:** [Cloudflare KV](https://developers.cloudflare.com/kv/)
 - **Markdown:** [markdown-it](https://github.com/markdown-it/markdown-it)
 
+## Architecture
+
+The codebase now follows a server-style layout with explicit routing, services, domain helpers, and presentation templates:
+
+- `src/index.ts` keeps the Worker entrypoint thin
+- `src/routes/` owns HTTP handlers
+- `src/services/` owns workflows and infrastructure integration
+- `src/domain/` owns pure business logic
+- `src/presentation/` owns HTML and static asset rendering
+
+Specs and decision docs live in `docs/spec/`, and agent navigation guidance lives in `AGENTS.md`.
+
 ## Contributing
 
 Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
