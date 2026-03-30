@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 
-const MAX_MARKDOWN_BYTES = 500_000;
+const MAX_MARKDOWN_CHARS = 500_000;
 
 function getMarkdownToPublish(editor: vscode.TextEditor): string | undefined {
   const doc = editor.document;
@@ -35,8 +35,7 @@ export function activate(context: vscode.ExtensionContext): void {
       return;
     }
 
-    const encoded = new TextEncoder().encode(markdown);
-    if (encoded.length > MAX_MARKDOWN_BYTES) {
+    if (markdown.length > MAX_MARKDOWN_CHARS) {
       void vscode.window.showErrorMessage("Content too large (max 500KB).");
       return;
     }
@@ -55,7 +54,10 @@ export function activate(context: vscode.ExtensionContext): void {
         try {
           const response = await fetch(publishUrl, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+              "Content-Type": "application/json",
+              "User-Agent": "mdpage-vscode/0.1.0",
+            },
             body: JSON.stringify({ markdown }),
           });
 

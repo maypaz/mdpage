@@ -11,9 +11,6 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "onCommand:mdpage.publish"
-  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -45,8 +42,8 @@
     "keybindings": [
       {
         "command": "mdpage.publish",
-        "key": "ctrl+k m",
-        "mac": "cmd+k m",
+        "key": "ctrl+alt+m",
+        "mac": "ctrl+cmd+m",
         "when": "editorTextFocus && (editorLangId == markdown || editorLangId == mdx)"
       }
     ]
