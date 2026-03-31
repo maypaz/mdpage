@@ -39,7 +39,7 @@ server.tool(
           const messages: Record<number, string> = {
             400: error.error || "Invalid markdown content.",
             413: "Content too large. Maximum size is 500KB.",
-            429: "Rate limit exceeded. Try again later (max 60 pages/hour).",
+            429: "Rate limit exceeded. Try again later.",
           };
           errorMessage = messages[response.status] || `Publishing failed: ${error.error || response.statusText}`;
         } catch {
@@ -51,7 +51,15 @@ server.tool(
         };
       }
 
-      const data = (await response.json()) as PublishResponse;
+      let data: PublishResponse;
+      try {
+        data = (await response.json()) as PublishResponse;
+      } catch {
+        return {
+          content: [{ type: "text" as const, text: "Publishing succeeded but the response could not be parsed." }],
+          isError: true,
+        };
+      }
       return {
         content: [
           {

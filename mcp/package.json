@@ -26,8 +26,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/maypaz/mdpage.git",
+    "url": "https://github.com/maypaz/md.page.git",
     "directory": "mcp"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "homepage": "https://md.page",
   "dependencies": {
