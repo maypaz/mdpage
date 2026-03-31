@@ -36,7 +36,7 @@ export function activate(context: vscode.ExtensionContext): void {
     }
 
     if (markdown.length > MAX_MARKDOWN_CHARS) {
-      void vscode.window.showErrorMessage("Content too large (max 500KB).");
+      void vscode.window.showErrorMessage("Content too large (max 500,000 characters).");
       return;
     }
 
@@ -72,11 +72,11 @@ export function activate(context: vscode.ExtensionContext): void {
 
           if (!response.ok) {
             if (response.status === 429) {
-              void vscode.window.showErrorMessage("Rate limit exceeded (max 60 publishes per hour).");
+              void vscode.window.showErrorMessage("Rate limited — please try again later.");
               return;
             }
             if (response.status === 413) {
-              void vscode.window.showErrorMessage("Content too large (max 500KB).");
+              void vscode.window.showErrorMessage("Content too large (max 500,000 characters).");
               return;
             }
             void vscode.window.showErrorMessage(data.error ?? `Publish failed (${response.status}).`);
