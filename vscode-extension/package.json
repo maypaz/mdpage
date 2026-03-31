@@ -1,0 +1,69 @@
+{
+  "name": "mdpage-publish",
+  "displayName": "md.page Publish",
+  "description": "Publish Markdown to a shareable md.page URL from the editor.",
+  "version": "0.1.0",
+  "publisher": "mdpage",
+  "license": "MIT",
+  "icon": "icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "mdpage.publish",
+        "title": "Publish to md.page",
+        "category": "md.page"
+      }
+    ],
+    "configuration": {
+      "title": "md.page",
+      "properties": {
+        "mdpage.baseUrl": {
+          "type": "string",
+          "default": "https://md.page",
+          "description": "Origin of your md.page instance (no trailing slash). Use for self-hosted deployments."
+        }
+      }
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "command": "mdpage.publish",
+          "when": "editorLangId == markdown || editorLangId == mdx",
+          "group": "9_cutcopypaste@5"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "mdpage.publish",
+        "key": "ctrl+alt+m",
+        "mac": "ctrl+cmd+m",
+        "when": "editorTextFocus && (editorLangId == markdown || editorLangId == mdx)"
+      }
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maypaz/md.page.git",
+    "directory": "vscode-extension"
+  },
+  "scripts": {
+    "compile": "tsc -p .",
+    "watch": "tsc -watch -p .",
+    "vscode:prepublish": "npm run compile",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.0.0",
+    "typescript": "^5.7.0"
+  }
+}
