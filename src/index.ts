@@ -449,19 +449,8 @@ export default {
 
 
     // POST /api/publish — create a page
+    // Rate limiting handled by Cloudflare WAF rule (10 req / 10s per IP)
     if (url.pathname === "/api/publish" && request.method === "POST") {
-      // Rate limit: 60 publishes per hour per IP
-      const ip = request.headers.get("CF-Connecting-IP") || "unknown";
-      const rateKey = `rate:${ip}`;
-      const current = parseInt(await env.PAGES.get(rateKey) || "0");
-      if (current >= 60) {
-        return Response.json(
-          { error: "Rate limit exceeded. Max 60 pages per hour." },
-          { status: 429, headers: corsHeaders }
-        );
-      }
-      await env.PAGES.put(rateKey, String(current + 1), { expirationTtl: 3600 });
-
       try {
         const body = await request.json<{ markdown: string }>();
 

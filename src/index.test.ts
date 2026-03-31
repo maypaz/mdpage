@@ -395,23 +395,7 @@ describe("Worker", () => {
       expect(res.status).toBe(413);
     });
 
-    it("returns 429 when rate limit is exceeded", async () => {
-      // "unknown" is the fallback IP when CF-Connecting-IP header is absent
-      await env.PAGES.put("rate:unknown", "60", { expirationTtl: 3600 });
-
-      const res = await publish("# Should be rejected");
-      expect(res.status).toBe(429);
-      const data = await res.json<{ error: string }>();
-      expect(data.error).toContain("Rate limit");
-    });
-
-    it("increments rate counter on each publish", async () => {
-      await publish("# First");
-      expect(await env.PAGES.get("rate:unknown")).toBe("1");
-
-      await publish("# Second");
-      expect(await env.PAGES.get("rate:unknown")).toBe("2");
-    });
+    // Rate limiting is now handled by Cloudflare WAF rules
   });
 
   // -- GET /:id ------------------------------------------------------------
