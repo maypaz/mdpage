@@ -5,3 +5,4 @@ wrangler.toml
 PLAN.md
 scripts/
 .env.local
+mcp/build/
