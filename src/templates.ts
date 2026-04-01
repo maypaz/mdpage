@@ -237,11 +237,38 @@ export function landingPageHtml(origin: string): string {
     .skill-copy-btn svg { width: 14px; height: 14px; color: #7a9fd4; }
     .skill-copy-btn.copied svg { color: #16a34a; }
     .skill-copy-btn.copied { border-color: #16a34a; }
+    .try-editor { text-align: left; margin: 0.75rem 0 0; }
+    .try-editor textarea {
+      width: 100%; height: 160px; resize: none; overflow: hidden;
+      font-family: ui-monospace, 'SF Mono', SFMono-Regular, 'Courier New', monospace;
+      font-size: 0.82rem; line-height: 1.55;
+      background: #0d1117; color: #e6edf3;
+      border: 1px solid #21262d; border-radius: 10px;
+      padding: 1rem; outline: none;
+      transition: border-color 0.2s;
+    }
+    .try-editor textarea:focus { border-color: #4285F4; }
+    .try-editor textarea::placeholder { color: #8b949e; }
+    .try-publish-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-top: 0.6rem; padding: 0.7rem 1.6rem;
+      background: #4285F4; color: #fff;
+      border: none; border-radius: 10px;
+      font-size: 0.95rem; font-weight: 600;
+      cursor: pointer; transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 2px 8px rgba(66,133,244,0.2);
+    }
+    .try-publish-btn:hover { background: #3367d6; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(66,133,244,0.3); }
+    .try-publish-btn:active { transform: scale(0.97); }
+    .try-publish-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+    .try-status { font-size: 0.78rem; margin-top: 0.4rem; min-height: 1.2em; }
+    .try-status a { color: #4285F4; }
+    .try-status.error { color: #f87171; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
     .anim { animation: fadeUp 0.5s ease-out both; }
     .d1 { animation-delay: 0.04s; } .d2 { animation-delay: 0.08s; } .d3 { animation-delay: 0.12s; }
     .d4 { animation-delay: 0.16s; } .d5 { animation-delay: 0.2s; } .d6 { animation-delay: 0.24s; }
-    .d7 { animation-delay: 0.28s; } .d8 { animation-delay: 0.32s; }
+    .d7 { animation-delay: 0.28s; } .d8 { animation-delay: 0.32s; } .d9 { animation-delay: 0.36s; }
     @media (max-width: 480px) {
       body { padding: 0.75rem 0.5rem; }
       .container { padding: 2rem 1.25rem 1.5rem; border-radius: 12px; }
@@ -269,6 +296,10 @@ export function landingPageHtml(origin: string): string {
       .skill-copy-btn { border-color: #1e3a6e; }
       .skill-copy-btn:hover { background: #152d5a; border-color: #2a5098; }
       .skill-copy-btn svg { color: #4a7ab5; }
+      .try-editor textarea { background: #0d1117; color: #e6edf3; border-color: #21262d; }
+      .try-editor textarea::placeholder { color: #8b949e; }
+      .try-status a { color: #60a5fa; }
+      .try-status.error { color: #f87171; }
     }
   </style>
 </head>
@@ -352,8 +383,16 @@ export function landingPageHtml(origin: string): string {
   <span class="output">&rarr;</span> <span class="str">{ "url": "https://md.page/a8Xk2m" }</span></code></pre>
       </div>
     </div>
+    <div class="section-divider anim d7"><span class="section-label">Try it manually</span></div>
+    <div class="anim d7 try-editor">
+      <textarea id="try-md" placeholder="# Hello World\n\nPaste your **Markdown** here and hit publish.\n\n- Lists work\n- So do [links](https://example.com)\n- And \`inline code\`" spellcheck="false"></textarea>
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <button class="try-publish-btn" id="try-publish" onclick="publishMarkdown()">Publish &#128640;</button>
+        <span class="try-status" id="try-status"></span>
+      </div>
+    </div>
   </div>
-  <p class="anim d8" style="margin-top: 1rem; text-align: center; font-size: 0.75rem;"><a href="/privacy" style="color: #6b7280; text-decoration: none;">Privacy Policy</a></p>
+  <p class="anim d9" style="margin-top: 1rem; text-align: center; font-size: 0.75rem;"><a href="/privacy" style="color: #6b7280; text-decoration: none;">Privacy Policy</a></p>
   <script>
     window.scrollTo(0, 0);
     function trackClick(event) {
@@ -374,6 +413,36 @@ export function landingPageHtml(origin: string): string {
         btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
       }, 2000);
       trackClick('copy_skill_' + type);
+    }
+    function publishMarkdown() {
+      var md = document.getElementById('try-md').value.trim();
+      var btn = document.getElementById('try-publish');
+      var status = document.getElementById('try-status');
+      if (!md) { md = document.getElementById('try-md').placeholder; }
+      btn.disabled = true;
+      btn.textContent = 'Publishing\u2026';
+      status.className = 'try-status'; status.textContent = '';
+      fetch('/api/publish', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ markdown: md })
+      }).then(function(r) { return r.json(); }).then(function(data) {
+        if (data.url) {
+          status.className = 'try-status';
+          status.innerHTML = 'Published! <a href="' + data.url + '" target="_blank">' + data.url + '</a>';
+          window.open(data.url, '_blank');
+          trackClick('try_publish');
+        } else {
+          status.className = 'try-status error';
+          status.textContent = data.error || 'Something went wrong.';
+        }
+      }).catch(function() {
+        status.className = 'try-status error';
+        status.textContent = 'Network error. Please try again.';
+      }).finally(function() {
+        btn.disabled = false;
+        btn.innerHTML = 'Publish &#128640;';
+      });
     }
     function copyAgentPrompt() {
       navigator.clipboard.writeText("From now on, whenever I ask you to share or publish a markdown file, use the md.page API to create a shareable HTML page. Send a POST request to https://md.page/api/publish with the body {\\"markdown\\": \\"<content>\\"} and return the shareable URL to me.");
