@@ -183,80 +183,85 @@ export function landingPageHtml(origin: string): string {
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; color: #1a1a1a; background: #fafafa; padding: 2rem 1rem; }
-    .container { max-width: 720px; margin: 0 auto; background: #fff; border-radius: 8px; padding: 2.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); text-align: center; }
-    .code-block { background: #1e1e1e; border-radius: 8px; margin: 1.25rem 0 0.75rem; overflow: hidden; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; color: #1a1a1a; background: #f0f2f5; padding: 2rem 1rem; min-height: 100vh; }
+    .container { max-width: 720px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 3rem 2.5rem 2.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 30px rgba(0,0,0,0.04); text-align: center; }
+    .code-block { background: #0d1117; border-radius: 10px; margin: 0.75rem 0; overflow: hidden; }
     .code-header { display: flex; align-items: center; padding: 0.6rem 1rem 0; gap: 0.4rem; }
     .code-dot { width: 10px; height: 10px; border-radius: 50%; }
     .code-dot-red { background: #ff5f57; }
     .code-dot-yellow { background: #febc2e; }
     .code-dot-green { background: #28c840; }
-    .code-label { color: #888; font-size: 0.65rem; margin-left: auto; font-family: ui-monospace, monospace; text-transform: uppercase; letter-spacing: 0.05em; }
-    pre { background: #1e1e1e; color: #d4d4d4; padding: 0.75rem 1rem 1rem; margin: 0; text-align: left; overflow-x: auto; }
+    .code-label { color: #6e7681; font-size: 0.65rem; margin-left: auto; font-family: ui-monospace, monospace; text-transform: uppercase; letter-spacing: 0.05em; }
+    pre { background: #0d1117; color: #e6edf3; padding: 0.75rem 1rem 1rem; margin: 0; text-align: left; overflow-x: auto; }
     code { font-size: 0.8rem; }
-    .cmd { color: #98c379; }
-    .arg { color: #d4d4d4; }
-    .flag { color: #61afef; }
-    .output { color: #888; }
-    .str { color: #e5c07b; }
-    .url { color: #61afef; }
-    .buttons { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
-    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem; border-radius: 8px; font-size: 0.9rem; font-weight: 500; text-decoration: none; border: none; cursor: pointer; color: #fff; }
-    .btn-github { background: #24292e; }
-    .btn-github:hover { background: #1b1f23; }
+    .cmd { color: #7ee787; }
+    .arg { color: #e6edf3; }
+    .flag { color: #79c0ff; }
+    .output { color: #6e7681; }
+    .str { color: #ffa657; }
+    .url { color: #79c0ff; }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.6rem; border-radius: 10px; font-size: 0.95rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; color: #fff; transition: transform 0.15s, box-shadow 0.15s, background 0.15s; }
+    .btn:active { transform: scale(0.97); }
+    .btn-github { background: linear-gradient(135deg, #24292e, #40464d); box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+    .btn-github:hover { background: linear-gradient(135deg, #2d333b, #4a5058); box-shadow: 0 4px 14px rgba(0,0,0,0.2); transform: translateY(-1px); }
     .logo-text { color: #1a1a1a; }
-    .subtitle { font-size: 1.1rem; color: #4b5563; margin-bottom: 0.75rem; }
+    .subtitle { font-size: 1.15rem; color: #374151; margin-bottom: 0.6rem; font-weight: 400; }
     .detail { font-size: 0.8rem; color: #6b7280; margin-bottom: 0.25rem; }
     #copied-msg { margin-top: 0.4rem; color: #1a3a7a; font-size: 0.75rem; opacity: 0; transition: opacity 0.3s; }
-    .features { font-size: 0.85rem; color: #6b7280; }
-    .features span { white-space: nowrap; }
+    .section-divider { display: flex; align-items: center; gap: 0.75rem; margin: 1.5rem 0 0.75rem; }
+    .section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: #e5e7eb; }
+    .section-label { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #9ca3af; white-space: nowrap; }
     .skill-cards { display: flex; gap: 0.75rem; margin: 0.75rem 0; }
-    .skill-card { flex: 1; border: 1px solid #e5e7eb; border-radius: 10px; padding: 1rem 0.75rem 0.85rem; text-align: left; transition: border-color 0.2s, box-shadow 0.2s; }
-    .skill-card:hover { border-color: #d1d5db; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .skill-card { flex: 1; border: 1px solid #c7d6f5; border-radius: 10px; padding: 1rem 0.75rem 0.85rem; text-align: left; background: #eef3ff; transition: border-color 0.2s, box-shadow 0.2s; }
+    .skill-card:hover { border-color: #93b4f5; box-shadow: 0 2px 8px rgba(66,133,244,0.12); }
     .skill-card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
     .skill-card-logo { width: 22px; height: 22px; flex-shrink: 0; border-radius: 4px; }
     .skill-card-name { font-size: 0.85rem; font-weight: 600; color: #1a1a1a; }
     .skill-card-cmd-row { display: flex; align-items: center; gap: 0.4rem; }
-    .skill-card-cmd { flex: 1; font-family: ui-monospace, 'SF Mono', monospace; font-size: 0.72rem; color: #6b7280; background: #f5f5f5; border-radius: 5px; padding: 0.4rem 0.6rem; word-break: break-all; }
-    .skill-copy-btn { flex-shrink: 0; background: none; border: 1px solid #e5e7eb; border-radius: 5px; padding: 0.35rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s, border-color 0.15s; }
-    .skill-copy-btn:hover { background: #f0f0f0; border-color: #d1d5db; }
-    .skill-copy-btn svg { width: 14px; height: 14px; color: #9ca3af; }
+    .skill-card-cmd { flex: 1; font-family: ui-monospace, 'SF Mono', monospace; font-size: 0.72rem; color: #4b6a9b; background: #dce6f8; border-radius: 5px; padding: 0.4rem 0.6rem; word-break: break-all; }
+    .skill-copy-btn { flex-shrink: 0; background: none; border: 1px solid #c7d6f5; border-radius: 5px; padding: 0.35rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s, border-color 0.15s; }
+    .skill-copy-btn:hover { background: #dce6f8; border-color: #93b4f5; }
+    .skill-copy-btn svg { width: 14px; height: 14px; color: #7a9fd4; }
     .skill-copy-btn.copied svg { color: #16a34a; }
     .skill-copy-btn.copied { border-color: #16a34a; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    .anim { animation: fadeUp 0.5s ease-out both; }
+    .d1 { animation-delay: 0.04s; } .d2 { animation-delay: 0.08s; } .d3 { animation-delay: 0.12s; }
+    .d4 { animation-delay: 0.16s; } .d5 { animation-delay: 0.2s; } .d6 { animation-delay: 0.24s; }
+    .d7 { animation-delay: 0.28s; } .d8 { animation-delay: 0.32s; }
     @media (max-width: 480px) {
-      body { padding: 1rem 0.5rem; }
-      .container { padding: 1.5rem 1rem; }
-      .buttons { flex-direction: column; width: 100%; }
+      body { padding: 0.75rem 0.5rem; }
+      .container { padding: 2rem 1.25rem 1.5rem; border-radius: 12px; }
       .btn { justify-content: center; width: 100%; }
       pre { font-size: 0.7rem; overflow-x: hidden; white-space: pre-wrap; word-break: break-all; }
-      .code-block { margin: 1rem 0 0.5rem; }
-      .features { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.25rem 0.75rem; }
+      .code-block { margin: 0.5rem 0; }
       .skill-cards { flex-direction: column; }
+      .features { gap: 0.35rem; }
     }
     @media (prefers-color-scheme: dark) {
-      body { background: #1a1a1a; color: #e5e5e5; }
-      .container { background: #2a2a2a; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
-      .subtitle { color: #d1d5db; }
-      .detail { color: #b0b0b0; }
-      .btn-github { background: #444; border: 1px solid rgba(255,255,255,0.3); }
-      .btn-github:hover { background: #555; }
-      .features { color: #9ca3af; }
-      #copied-msg { color: #60a5fa; }
+      body { background: #0a0a0a; color: #e5e5e5; }
+      .container { background: #161616; box-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 8px 30px rgba(0,0,0,0.25); }
       .logo-text { color: #fff; }
-      .free-badge { color: #60a5fa !important; }
-      .skill-card { border-color: #444; background: #333; }
-      .skill-card:hover { border-color: #666; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+      .subtitle { color: #b0b0b0; }
+      .detail { color: #888; }
+      .btn-github { background: #2a2a2a; border: 1px solid #444; }
+      .btn-github:hover { background: #333; }
+      #copied-msg { color: #60a5fa; }
+      .section-divider::before, .section-divider::after { background: #2a2a2a; }
+      .section-label { color: #555; }
+      .skill-card { border-color: #1e3a6e; background: #0f1f3d; }
+      .skill-card:hover { border-color: #2a5098; box-shadow: 0 2px 12px rgba(66,133,244,0.15); }
       .skill-card-name { color: #e5e5e5; }
-      .skill-card-cmd { background: #2a2a2a; color: #b0b0b0; }
-      .skill-copy-btn { border-color: #555; }
-      .skill-copy-btn:hover { background: #444; border-color: #777; }
-      .skill-copy-btn svg { color: #777; }
+      .skill-card-cmd { background: #0a1628; color: #7a9fd4; }
+      .skill-copy-btn { border-color: #1e3a6e; }
+      .skill-copy-btn:hover { background: #152d5a; border-color: #2a5098; }
+      .skill-copy-btn svg { color: #4a7ab5; }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div style="display: inline-flex; align-items: center; gap: 12px;">
+    <div class="anim d1" style="display: inline-flex; align-items: center; gap: 12px; margin-bottom: 0.25rem;">
       <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
         <rect width="48" height="48" rx="11" fill="#4285F4"/>
         <g stroke="#fff" stroke-width="4.5" stroke-linecap="round" fill="none" transform="translate(11, 8)">
@@ -268,66 +273,74 @@ export function landingPageHtml(origin: string): string {
       </svg>
       <span class="logo-text" style="font-family: ui-monospace, 'SF Mono', SFMono-Regular, 'Courier New', monospace; font-size: 42px; font-weight: 700; letter-spacing: -1px;">md.page</span>
     </div>
-    <p class="subtitle">Markdown in, beautiful page out. &#10024;</p>
-    <p class="free-badge" style="font-size: 1.05rem; font-weight: 700; color: #1a3a7a; margin-bottom: 0.25rem;">100% free. No catch.</p>
-    <p class="detail" style="margin-bottom: 0.75rem;">Open source. No accounts, no API keys, no limits.</p>
-    <a href="https://github.com/maypaz/md.page" target="_blank" class="btn btn-github" onclick="trackClick('github_click')" style="margin-bottom: 0.75rem;"><svg width="18" height="18" viewBox="0 0 16 16" fill="white"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> &#11088; GitHub</a>
-    <p class="detail" style="margin-bottom: 0.5rem;">Add to your AI agent:</p>
-    <div class="skill-cards">
-      <div class="skill-card">
-        <div class="skill-card-header">
-          <img class="skill-card-logo" src="/claude-logo.svg" alt="Claude">
-          <span class="skill-card-name">Claude Code</span>
-        </div>
-        <div class="skill-card-cmd-row">
-          <div class="skill-card-cmd">npx skills add maypaz/md.page</div>
-          <button class="skill-copy-btn" id="copy-btn-claude" onclick="copySkill('claude')" title="Copy to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-header">
-          <span style="font-size: 1.25rem; line-height: 1;">&#129438;</span>
-          <span class="skill-card-name">OpenClaw</span>
-        </div>
-        <div class="skill-card-cmd-row">
-          <div class="skill-card-cmd">npx clawhub@latest install publish-to-mdpage</div>
-          <button class="skill-copy-btn" id="copy-btn-openclaw" onclick="copySkill('openclaw')" title="Copy to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
-        </div>
-      </div>
+    <p class="subtitle anim d2">Instantly turn Markdown into a shareable web page.<br>100% free. No signup. Auto-expires in 24h.</p>
+    <div class="anim d3" style="margin-top: 0.75rem;">
+      <a href="https://github.com/maypaz/md.page" target="_blank" class="btn btn-github" onclick="trackClick('github_click')"><svg width="18" height="18" viewBox="0 0 16 16" fill="white"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> GitHub &#11088;</a>
     </div>
-    <p class="detail" style="margin-top: 0.5rem; margin-bottom: 0.5rem;">or use the CLI:</p>
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-dot code-dot-red"></span>
-        <span class="code-dot code-dot-yellow"></span>
-        <span class="code-dot code-dot-green"></span>
-        <span class="code-label">Terminal</span>
+    <div class="anim d3" style="margin-top: 1.25rem;">
+      <video autoplay loop muted playsinline style="width: 100%; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.12);">
+        <source src="/lp.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="section-divider anim d4"><span class="section-label">Add to your AI agent</span></div>
+    <div class="anim d4">
+      <div class="skill-cards">
+        <div class="skill-card">
+          <div class="skill-card-header">
+            <img class="skill-card-logo" src="/claude-logo.svg" alt="Claude">
+            <span class="skill-card-name">Claude Code</span>
+          </div>
+          <div class="skill-card-cmd-row">
+            <div class="skill-card-cmd">npx skills add maypaz/md.page</div>
+            <button class="skill-copy-btn" id="copy-btn-claude" onclick="copySkill('claude')" title="Copy to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card-header">
+            <span style="font-size: 1.25rem; line-height: 1;">&#129438;</span>
+            <span class="skill-card-name">OpenClaw</span>
+          </div>
+          <div class="skill-card-cmd-row">
+            <div class="skill-card-cmd">npx clawhub@latest install publish-to-mdpage</div>
+            <button class="skill-copy-btn" id="copy-btn-openclaw" onclick="copySkill('openclaw')" title="Copy to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+          </div>
+        </div>
       </div>
-      <pre><code><span class="output">$</span> <span class="cmd">npx</span> <span class="arg">mdpage-cli</span> <span class="flag">README.md</span>
+      <p class="detail" style="margin-top: 0.5rem;"><button onclick="copyAgentPrompt()" style="background: none; border: none; color: #6b7280; cursor: pointer; font-size: 0.8rem; text-decoration: underline; padding: 0;">Using another agent? Copy this prompt instead</button></p>
+      <p id="copied-msg">Copied! Paste it into any AI agent.</p>
+    </div>
+    <div class="section-divider anim d5"><span class="section-label">Or use directly</span></div>
+    <div class="anim d5">
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-dot code-dot-red"></span>
+          <span class="code-dot code-dot-yellow"></span>
+          <span class="code-dot code-dot-green"></span>
+          <span class="code-label">Terminal</span>
+        </div>
+        <pre><code><span class="output">$</span> <span class="cmd">npx</span> <span class="arg">mdpage-cli</span> <span class="flag">README.md</span>
 
-  <span class="output">Published →</span> <span class="url">https://md.page/a8Xk2m</span>
+  <span class="output">Published &rarr;</span> <span class="url">https://md.page/a8Xk2m</span>
   <span class="output">Expires in 24h</span></code></pre>
-    </div>
-    <p class="detail" style="margin-top: 0.5rem; margin-bottom: 0.5rem;">or the API directly:</p>
-    <div class="code-block">
-      <div class="code-header">
-        <span class="code-dot code-dot-red"></span>
-        <span class="code-dot code-dot-yellow"></span>
-        <span class="code-dot code-dot-green"></span>
-        <span class="code-label">API</span>
       </div>
-      <pre><code><span class="output">$</span> <span class="cmd">curl</span> <span class="flag">-X POST</span> <span class="url">https://md.page/api/publish</span> \\
+    </div>
+    <div class="anim d6">
+      <p class="detail" style="margin: 0.5rem 0;">or use the API directly:</p>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-dot code-dot-red"></span>
+          <span class="code-dot code-dot-yellow"></span>
+          <span class="code-dot code-dot-green"></span>
+          <span class="code-label">API</span>
+        </div>
+        <pre><code><span class="output">$</span> <span class="cmd">curl</span> <span class="flag">-X POST</span> <span class="url">https://md.page/api/publish</span> \\
   <span class="flag">-d</span> <span class="str">'{"markdown": "# Hello World"}'</span>
 
-  <span class="output">→</span> <span class="str">{ "url": "https://md.page/a8Xk2m" }</span></code></pre>
+  <span class="output">&rarr;</span> <span class="str">{ "url": "https://md.page/a8Xk2m" }</span></code></pre>
+      </div>
     </div>
-    <p class="features">
-      <span>&#9889; Instant</span> <span>&#128279; Short URLs</span> <span>&#128336; 24h expiry</span> <span>&#128274; Private links</span>
-    </p>
-    <p class="detail" style="margin-top: 0.75rem;"><button onclick="copyAgentPrompt()" style="background: none; border: none; color: #6b7280; cursor: pointer; font-size: 0.8rem; text-decoration: underline; padding: 0;">Using another agent? Copy this prompt instead</button></p>
-    <p id="copied-msg">Copied! Paste it into any AI agent.</p>
   </div>
-  <p style="margin-top: 1rem; text-align: center; font-size: 0.75rem;"><a href="/privacy" style="color: #6b7280; text-decoration: none;">Privacy Policy</a></p>
+  <p class="anim d8" style="margin-top: 1rem; text-align: center; font-size: 0.75rem;"><a href="/privacy" style="color: #6b7280; text-decoration: none;">Privacy Policy</a></p>
   <script>
     function trackClick(event) {
       fetch('/api/event', {

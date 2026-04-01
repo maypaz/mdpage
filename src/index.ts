@@ -160,6 +160,15 @@ export default {
       });
     }
 
+    // Landing page video (served from R2)
+    if (url.pathname === "/lp.mp4") {
+      const object = await env.ASSETS_BUCKET.get("lp.mp4");
+      if (!object) return new Response("Not found", { status: 404 });
+      return new Response(object.body, {
+        headers: { "Content-Type": "video/mp4", "Cache-Control": "public, max-age=86400" },
+      });
+    }
+
     // OG image (PNG for WhatsApp/social)
     if (url.pathname === "/og-image.png") {
       const bytes = Uint8Array.from(atob(OG_IMAGE_PNG_B64), c => c.charCodeAt(0));

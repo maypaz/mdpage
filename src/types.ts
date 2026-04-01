@@ -1,6 +1,7 @@
 export interface Env {
   PAGES: KVNamespace;
   ANALYTICS: AnalyticsEngineDataset;
+  ASSETS_BUCKET: R2Bucket;
 }
 
 export interface PageData {
