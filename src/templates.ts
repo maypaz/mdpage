@@ -89,12 +89,25 @@ export function pageTemplate(content: string, options: TemplateOptions = {}): st
     .footer {
       text-align: center;
       margin-top: 2rem;
-      color: #9ca3af;
-      font-size: 0.85rem;
+      padding-bottom: 1rem;
     }
-    .footer a { color: #6b7280; text-decoration: none; transition: color 0.2s; }
-    .footer a:hover { color: #1a3a7a; }
-    .footer .brand { color: #1a3a7a; font-weight: 600; }
+    .footer a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #6b7280;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      border-radius: 20px;
+      padding: 0.4rem 0.9rem;
+      transition: all 0.2s;
+    }
+    .footer a:hover { color: #1a3a7a; background: #eef3ff; border-color: #c7d6f5; transform: translateY(-1px); box-shadow: 0 2px 8px rgba(66,133,244,0.1); }
+    .footer .logo-icon { width: 16px; height: 16px; flex-shrink: 0; }
+    .footer .brand { color: #1a3a7a; font-weight: 700; font-family: ui-monospace, 'SF Mono', monospace; font-size: 0.78rem; letter-spacing: -0.02em; }
     @media (prefers-color-scheme: dark) {
       body { background: #1a1a1a; color: #e5e5e5; }
       .container { background: #2a2a2a; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
@@ -104,13 +117,13 @@ export function pageTemplate(content: string, options: TemplateOptions = {}): st
       th, td { border-color: #444; }
       th { background: #333; }
       hr { border-top-color: #444; }
-      .footer a { color: #888; }
-      .footer a:hover { color: #60a5fa; }
+      .footer a { color: #888; background: #222; border-color: #333; }
+      .footer a:hover { color: #60a5fa; background: #1a2744; border-color: #2a4a7a; box-shadow: 0 2px 8px rgba(66,133,244,0.15); }
       .footer .brand { color: #60a5fa; }
     }
     @media (max-width: 600px) {
       body { padding: 0; background: #fff; }
-      .container { max-width: 100%; border-radius: 0; box-shadow: none; padding: 1.25rem 1rem; }
+      .container { max-width: 100%; border-radius: 0; box-shadow: none; padding: 1.25rem 1rem 2rem; }
       @media (prefers-color-scheme: dark) {
         body { background: #2a2a2a; }
       }
@@ -120,7 +133,7 @@ export function pageTemplate(content: string, options: TemplateOptions = {}): st
 <body>
   <div class="container">${content}</div>
   <div class="footer">
-    <a href="https://md.page" target="_blank">&#10024; Made with <span class="brand"><strong>#</strong><span style="margin-left:0.1em">md.page</span></span></a>
+    <a href="https://md.page" target="_blank"><svg class="logo-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="11" fill="#4285F4"/><g stroke="#fff" stroke-width="4.5" stroke-linecap="round" fill="none" transform="translate(11, 8)"><line x1="11" y1="2" x2="7" y2="32"/><line x1="21" y1="2" x2="17" y2="32"/><line x1="4" y1="11" x2="25" y2="11"/><line x1="3" y1="23" x2="24" y2="23"/></g></svg> Made with <span class="brand">md.page</span></a>
   </div>
 </body>
 </html>`;
