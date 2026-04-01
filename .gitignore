@@ -3,6 +3,7 @@ node_modules/
 .DS_Store
 wrangler.toml
 PLAN.md
+plans/
 scripts/
 .env.local
 mcp/build/
