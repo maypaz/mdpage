@@ -10,5 +10,5 @@
       "@cloudflare/vitest-pool-workers"
     ]
   },
-  "exclude": ["cli", "mcp", "vscode-extension"]
+  "exclude": ["cli", "mcp", "vscode-extension", "demo"]
 }
