@@ -5,8 +5,8 @@ Thanks for your interest in contributing! Here's how to get started.
 ## Development Setup
 
 ```bash
-git clone https://github.com/maypaz/mdpage.git
-cd mdpage
+git clone https://github.com/maypaz/md.page.git
+cd md.page
 npm install
 npm run dev
 ```
@@ -30,11 +30,11 @@ This starts a local dev server at `http://localhost:8787`.
 
 ## Reporting Bugs
 
-Open an [issue](https://github.com/maypaz/mdpage/issues) with:
+Open an [issue](https://github.com/maypaz/md.page/issues) with:
 - What you expected to happen
 - What actually happened
 - Steps to reproduce
 
 ## Feature Requests
 
-Open an [issue](https://github.com/maypaz/mdpage/issues) and describe the use case. We'd love to hear how you're using md.page.
+Open an [issue](https://github.com/maypaz/md.page/issues) and describe the use case. We'd love to hear how you're using md.page.

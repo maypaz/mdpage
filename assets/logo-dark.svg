@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="50" viewBox="0 0 300 50">
+  <g transform="translate(22, 0)">
+    <rect x="0" y="1" width="48" height="48" rx="11" fill="#4285F4"/>
+    <g stroke="#fff" stroke-width="4.5" stroke-linecap="round" fill="none" transform="translate(11, 9)">
+      <line x1="11" y1="2" x2="7" y2="32"/>
+      <line x1="21" y1="2" x2="17" y2="32"/>
+      <line x1="4" y1="11" x2="25" y2="11"/>
+      <line x1="3" y1="23" x2="24" y2="23"/>
+    </g>
+    <text x="60" y="25" font-family="ui-monospace, 'SF Mono', SFMono-Regular, 'Courier New', monospace" font-size="42" font-weight="700" text-anchor="start" letter-spacing="-1" dominant-baseline="central">
+      <tspan fill="#e5e5e5">md.page</tspan>
+    </text>
+  </g>
+</svg>
