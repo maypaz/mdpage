@@ -1,0 +1,56 @@
+name: Bug Report
+description: Report something that isn't working as expected
+labels: ["bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: A clear description of the bug.
+      placeholder: When I publish markdown with a code block, the output page shows raw HTML instead of rendered content.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps to reproduce the issue.
+      placeholder: |
+        1. Run `curl -X POST https://md.page/api/publish -d '{"markdown": "..."}'`
+        2. Open the returned URL
+        3. See the issue
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which part of md.page is affected?
+      options:
+        - API / Worker
+        - CLI (mdpage-cli)
+        - MCP Server
+        - VS Code Extension
+        - Landing Page
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Any relevant environment details (OS, Node version, browser, etc.).
+      placeholder: macOS 15, Node 20, Chrome 130
+    validations:
+      required: false
