@@ -269,6 +269,13 @@ export function landingPageHtml(origin: string): string {
     .d1 { animation-delay: 0.04s; } .d2 { animation-delay: 0.08s; } .d3 { animation-delay: 0.12s; }
     .d4 { animation-delay: 0.16s; } .d5 { animation-delay: 0.2s; } .d6 { animation-delay: 0.24s; }
     .d7 { animation-delay: 0.28s; } .d8 { animation-delay: 0.32s; } .d9 { animation-delay: 0.36s; }
+    .mobile-br { display: none; }
+    .site-footer { display: flex; justify-content: space-between; align-items: flex-start; max-width: 720px; margin: 2rem auto 0; padding: 0 1.5rem; color: #9ca3af; font-size: 0.72rem; line-height: 1.7; }
+    .site-footer a { color: #9ca3af; text-decoration: none; transition: color 0.2s; }
+    .site-footer a:hover { color: #1a3a7a; }
+    .site-footer .footer-brand { font-family: ui-monospace, 'SF Mono', monospace; font-weight: 700; font-size: 0.82rem; color: #9ca3af; letter-spacing: -0.02em; }
+    .site-footer .footer-right { display: flex; flex-direction: column; gap: 0.3rem; align-items: flex-end; align-self: flex-end; }
+    .site-footer .footer-right a { display: inline-flex; align-items: center; gap: 0.35rem; }
     @media (max-width: 480px) {
       body { padding: 0.75rem 0.5rem; }
       .container { padding: 2rem 1.25rem 1.5rem; border-radius: 12px; }
@@ -277,6 +284,10 @@ export function landingPageHtml(origin: string): string {
       .code-block { margin: 0.5rem 0; }
       .skill-cards { flex-direction: column; }
       .features { gap: 0.35rem; }
+      .site-footer { flex-direction: column; align-items: center; text-align: center; gap: 0.5rem; }
+      .site-footer > div { align-items: center; }
+      .site-footer .footer-right { flex-direction: row; justify-content: center; align-self: center; gap: 1rem; }
+      .mobile-br { display: inline; }
     }
     @media (prefers-color-scheme: dark) {
       body { background: #0a0a0a; color: #e5e5e5; }
@@ -300,6 +311,10 @@ export function landingPageHtml(origin: string): string {
       .try-editor textarea::placeholder { color: #8b949e; }
       .try-status a { color: #60a5fa; }
       .try-status.error { color: #f87171; }
+      .site-footer { color: #555; }
+      .site-footer a { color: #555; }
+      .site-footer a:hover { color: #60a5fa; }
+      .site-footer .footer-brand { color: #555; }
     }
   </style>
 </head>
@@ -392,7 +407,28 @@ export function landingPageHtml(origin: string): string {
       </div>
     </div>
   </div>
-  <p class="anim d9" style="margin-top: 1rem; text-align: center; font-size: 0.75rem;"><a href="/privacy" style="color: #6b7280; text-decoration: none;">Privacy Policy</a></p>
+  <div class="anim d9 site-footer">
+    <div>
+      <div style="display: inline-flex; align-items: center; gap: 6px; margin-bottom: 0.35rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48">
+          <rect width="48" height="48" rx="11" fill="#4285F4"/>
+          <g stroke="#fff" stroke-width="4.5" stroke-linecap="round" fill="none" transform="translate(11, 8)">
+            <line x1="11" y1="2" x2="7" y2="32"/>
+            <line x1="21" y1="2" x2="17" y2="32"/>
+            <line x1="4" y1="11" x2="25" y2="11"/>
+            <line x1="3" y1="23" x2="24" y2="23"/>
+          </g>
+        </svg>
+        <span class="footer-brand">md.page</span>
+      </div>
+      <div style="margin-bottom: 0.2rem;">Built by two developers<br class="mobile-br"> who got tired of screenshotting markdown.</div>
+      <div><a href="https://www.linkedin.com/in/maypaz/" target="_blank">Or May-Paz</a> &amp; <a href="https://www.linkedin.com/in/matanl/" target="_blank">Matan Lachmish</a></div>
+    </div>
+    <div class="footer-right">
+      <a href="https://github.com/maypaz/md.page" target="_blank"><svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> GitHub</a>
+      <a href="/privacy">Privacy</a>
+    </div>
+  </div>
   <script>
     window.scrollTo(0, 0);
     function trackClick(event) {
