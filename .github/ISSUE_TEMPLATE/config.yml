@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Question or Discussion
+    url: https://github.com/maypaz/md.page/discussions
+    about: Ask questions or start a conversation about md.page
