@@ -9,3 +9,8 @@ plans/
 scripts/
 .env.local
 mcp/build/
+.mcp.json
+.playwright-mcp/
+.agents/
+.claude/
+skills-lock.json
