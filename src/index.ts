@@ -2,7 +2,7 @@ import MarkdownIt from "markdown-it";
 import type { Env, PageData } from "./types";
 import { generateId, extractMeta, emit } from "./utils";
 import { FAVICON_SVG, CLAUDE_LOGO_SVG, LOGO_SVG, OG_IMAGE_PNG_B64 } from "./assets";
-import { renderOgPng } from "./og";
+import { renderOgPng, renderLandingOgPng } from "./og";
 import { pageTemplate, expiredPageHtml, landingPageHtml, privacyPageHtml } from "./templates";
 
 export { generateId, escapeHtml, stripMarkdownInline, extractMeta } from "./utils";
@@ -171,10 +171,17 @@ export default {
 
     // OG image (PNG for WhatsApp/social)
     if (url.pathname === "/og-image.png") {
-      const bytes = Uint8Array.from(atob(OG_IMAGE_PNG_B64), c => c.charCodeAt(0));
-      return new Response(bytes, {
-        headers: { "Content-Type": "image/png", "Cache-Control": "public, max-age=86400" },
-      });
+      try {
+        const pngData = await renderLandingOgPng();
+        return new Response(pngData, {
+          headers: { "Content-Type": "image/png", "Cache-Control": "public, max-age=86400" },
+        });
+      } catch {
+        const bytes = Uint8Array.from(atob(OG_IMAGE_PNG_B64), c => c.charCodeAt(0));
+        return new Response(bytes, {
+          headers: { "Content-Type": "image/png", "Cache-Control": "public, max-age=3600" },
+        });
+      }
     }
 
     // Landing page

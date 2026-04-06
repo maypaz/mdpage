@@ -1,4 +1,5 @@
 import { escapeHtml, stripMarkdownInline } from "./utils";
+import { ICON_SVG_INNER } from "./assets";
 
 const FONT_URL_BOLD = "https://cdn.jsdelivr.net/fontsource/fonts/inter@5.2.8/latin-700-normal.ttf";
 const FONT_URL_REGULAR = "https://cdn.jsdelivr.net/fontsource/fonts/inter@5.2.8/latin-400-normal.ttf";
@@ -180,8 +181,39 @@ export function generateOgSvg(title: string, markdownOrText: string): string {
 
 export async function renderOgPng(title: string, description: string): Promise<Uint8Array> {
   const svg = generateOgSvg(title, description);
-  const fonts = await getFonts();
-  const { Resvg } = await import("@cf-wasm/resvg/workerd");
+  return renderSvgToPng(svg);
+}
+
+function generateLandingOgSvg(): string {
+  const iconSize = 56;
+  const totalLogoWidth = iconSize + 16 + 280;
+  const iconX = (1200 - totalLogoWidth) / 2;
+  const iconY = 245;
+  const scale = iconSize / 48;
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f5f5f0"/>
+  <g transform="translate(${iconX}, ${iconY}) scale(${scale})">${ICON_SVG_INNER}</g>
+  <text x="${iconX + iconSize + 16}" y="${iconY + 44}" font-family="Inter" font-size="56" font-weight="700" fill="#1a1a1a">md.page</text>
+  <text x="600" y="370" font-family="Inter" font-size="24" font-weight="400" fill="#6b7280" text-anchor="middle">Markdown in, beautiful page out.</text>
+</svg>`;
+}
+
+let landingPngPromise: Promise<Uint8Array> | null = null;
+
+export function renderLandingOgPng(): Promise<Uint8Array> {
+  if (!landingPngPromise) {
+    landingPngPromise = renderSvgToPng(generateLandingOgSvg())
+      .catch(err => { landingPngPromise = null; throw err; });
+  }
+  return landingPngPromise;
+}
+
+async function renderSvgToPng(svg: string): Promise<Uint8Array> {
+  const [fonts, { Resvg }] = await Promise.all([
+    getFonts(),
+    import("@cf-wasm/resvg/workerd"),
+  ]);
   const resvg = await Resvg.async(svg, {
     fitTo: { mode: "width" as const, value: 1200 },
     font: {
