@@ -599,6 +599,53 @@ describe("Worker", () => {
     });
   });
 
+  // -- Syntax highlighting -------------------------------------------------
+
+  describe("Syntax highlighting", () => {
+    it("applies hljs markup when publishing code with a language hint", async () => {
+      const markdown = "# Code\n\n```js\nconst x = 42;\nconsole.log(x);\n```";
+      const res = await publish(markdown);
+      const { url } = await res.json<{ url: string }>();
+      const id = url.split("/").pop()!;
+
+      const stored = JSON.parse((await env.PAGES.get(id))!);
+      expect(stored.html).toContain('class="hljs"');
+      expect(stored.html).toContain("hljs-");
+    });
+
+    it("applies hljs auto-detection when no language hint is provided", async () => {
+      const markdown = "# Code\n\n```\nfunction hello() { return 1; }\n```";
+      const res = await publish(markdown);
+      const { url } = await res.json<{ url: string }>();
+      const id = url.split("/").pop()!;
+
+      const stored = JSON.parse((await env.PAGES.get(id))!);
+      expect(stored.html).toContain('class="hljs"');
+    });
+
+    it("highlights TypeScript code blocks", async () => {
+      const markdown = "```typescript\ninterface User { name: string; }\n```";
+      const res = await publish(markdown);
+      const { url } = await res.json<{ url: string }>();
+      const id = url.split("/").pop()!;
+
+      const stored = JSON.parse((await env.PAGES.get(id))!);
+      expect(stored.html).toContain('class="hljs"');
+      expect(stored.html).toContain("hljs-");
+    });
+
+    it("highlights Python code blocks", async () => {
+      const markdown = "```python\ndef greet(name):\n    print(f\"Hello {name}\")\n```";
+      const res = await publish(markdown);
+      const { url } = await res.json<{ url: string }>();
+      const id = url.split("/").pop()!;
+
+      const stored = JSON.parse((await env.PAGES.get(id))!);
+      expect(stored.html).toContain('class="hljs"');
+      expect(stored.html).toContain("hljs-keyword");
+    });
+  });
+
   // -- 404 fallback --------------------------------------------------------
 
   describe("404 fallback", () => {
