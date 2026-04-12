@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BEFORE: No Syntax Highlighting — md.page</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      color: #1a1a1a;
+      background: #fafafa;
+      padding: 2rem 1rem;
+    }
+    .banner {
+      max-width: 720px;
+      margin: 0 auto 1.5rem;
+      background: #dc2626;
+      color: #fff;
+      text-align: center;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.02em;
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+    }
+    .banner-sub {
+      font-weight: 400;
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin-top: 0.15rem;
+    }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 8px;
+      padding: 2.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    h1, h2, h3, h4, h5, h6 { margin-top: 1.5em; margin-bottom: 0.5em; font-weight: 600; }
+    .container > h1:first-child { margin-top: 0; }
+    h1 { font-size: 1.8rem; }
+    h2 { font-size: 1.4rem; }
+    h3 { font-size: 1.2rem; }
+    p { margin-bottom: 1em; }
+    a { color: #2563eb; }
+    code {
+      background: #f3f4f6;
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    pre {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin-bottom: 1em;
+    }
+    pre code { background: none; padding: 0; color: inherit; font-size: 0.9em; }
+    blockquote {
+      border-left: 3px solid #d1d5db;
+      padding-left: 1rem;
+      color: #6b7280;
+      margin-bottom: 1em;
+    }
+    ul, ol { margin-bottom: 1em; padding-left: 1.5em; }
+    li { margin-bottom: 0.25em; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 1em; }
+    th, td { border: 1px solid #e5e7eb; padding: 0.5rem 0.75rem; text-align: left; }
+    th { background: #f9fafb; font-weight: 600; }
+    img { max-width: 100%; height: auto; border-radius: 4px; }
+    hr { border: none; border-top: 1px solid #e5e7eb; margin: 1.5em 0; }
+    .lang-label {
+      display: inline-block;
+      background: #374151;
+      color: #9ca3af;
+      font-size: 0.7rem;
+      font-family: ui-monospace, 'SF Mono', SFMono-Regular, monospace;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px 4px 0 0;
+      margin-bottom: -1px;
+      position: relative;
+      top: 1px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 2rem;
+      padding-bottom: 1rem;
+    }
+    .footer a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #6b7280;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      border-radius: 20px;
+      padding: 0.4rem 0.9rem;
+      transition: all 0.2s;
+    }
+    .footer a:hover { color: #1a3a7a; background: #eef3ff; border-color: #c7d6f5; transform: translateY(-1px); box-shadow: 0 2px 8px rgba(66,133,244,0.1); }
+    .footer .logo-icon { width: 16px; height: 16px; flex-shrink: 0; }
+    .footer .brand { color: #1a3a7a; font-weight: 700; font-family: ui-monospace, 'SF Mono', monospace; font-size: 0.78rem; letter-spacing: -0.02em; }
+    @media (max-width: 600px) {
+      body { padding: 0; background: #fff; }
+      .banner { border-radius: 0; margin: 0 0 0; }
+      .container { max-width: 100%; border-radius: 0; box-shadow: none; padding: 1.25rem 1rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    BEFORE: No Syntax Highlighting
+    <div class="banner-sub">All code blocks render as plain monochrome text</div>
+  </div>
+  <div class="container">
+    <h1>Code Examples in md.page</h1>
+    <p>This page demonstrates how code blocks appear <strong>without</strong> syntax highlighting. All code is rendered as plain white/gray monospace text on a dark background -- functional, but hard to scan and read.</p>
+
+    <h2>JavaScript</h2>
+    <p>A classic recursive Fibonacci function with memoization:</p>
+    <span class="lang-label">javascript</span>
+    <pre><code>// Fibonacci with memoization
+function fibonacci(n, memo = {}) {
+  if (n in memo) return memo[n];
+  if (n &lt;= 1) return n;
+
+  memo[n] = fibonacci(n - 1, memo) + fibonacci(n - 2, memo);
+  return memo[n];
+}
+
+// Generate first 10 Fibonacci numbers
+const results = [];
+for (let i = 0; i &lt; 10; i++) {
+  results.push(fibonacci(i));
+}
+console.log("Fibonacci sequence:", results);
+// Output: [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]</code></pre>
+
+    <h2>Python</h2>
+    <p>A data processing class with initialization and transformation methods:</p>
+    <span class="lang-label">python</span>
+    <pre><code>class DataProcessor:
+    """Process and transform datasets for analysis."""
+
+    def __init__(self, source, delimiter=","):
+        self.source = source
+        self.delimiter = delimiter
+        self.data = []
+        self._load_data()
+
+    def _load_data(self):
+        """Load data from the source file."""
+        with open(self.source, "r") as f:
+            for line in f:
+                row = line.strip().split(self.delimiter)
+                self.data.append(row)
+        print(f"Loaded {len(self.data)} rows from {self.source}")
+
+    def filter_rows(self, column_index, predicate):
+        """Filter rows based on a predicate function."""
+        filtered = [
+            row for row in self.data
+            if predicate(row[column_index])
+        ]
+        return DataProcessor.__new_from_data(filtered)
+
+    @staticmethod
+    def __new_from_data(data):
+        instance = object.__new__(DataProcessor)
+        instance.data = data
+        return instance</code></pre>
+
+    <h2>Bash</h2>
+    <p>A deployment script with environment checks and rollback support:</p>
+    <span class="lang-label">bash</span>
+    <pre><code>#!/bin/bash
+# deploy.sh - Production deployment with rollback
+
+set -euo pipefail
+
+APP_NAME="myapp"
+DEPLOY_DIR="/opt/${APP_NAME}"
+BACKUP_DIR="/opt/backups/${APP_NAME}"
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+
+echo "=== Deploying ${APP_NAME} ==="
+
+# Pre-flight checks
+if [ ! -f "dist/bundle.js" ]; then
+    echo "ERROR: Build artifacts not found. Run 'npm run build' first."
+    exit 1
+fi
+
+# Create backup of current deployment
+echo "Creating backup..."
+mkdir -p "${BACKUP_DIR}"
+if [ -d "${DEPLOY_DIR}/current" ]; then
+    cp -r "${DEPLOY_DIR}/current" "${BACKUP_DIR}/${TIMESTAMP}"
+    echo "Backup saved to ${BACKUP_DIR}/${TIMESTAMP}"
+fi
+
+# Deploy new version
+echo "Deploying new version..."
+rsync -avz --delete dist/ "${DEPLOY_DIR}/current/"
+
+# Health check
+echo "Running health check..."
+for i in {1..5}; do
+    if curl -sf http://localhost:3000/health &gt; /dev/null; then
+        echo "Health check passed!"
+        exit 0
+    fi
+    echo "Attempt ${i}/5 failed, retrying in 3s..."
+    sleep 3
+done
+
+echo "ERROR: Health check failed. Rolling back..."
+cp -r "${BACKUP_DIR}/${TIMESTAMP}/" "${DEPLOY_DIR}/current/"
+exit 1</code></pre>
+
+    <h2>JSON</h2>
+    <p>A package configuration file:</p>
+    <span class="lang-label">json</span>
+    <pre><code>{
+  "name": "@myorg/web-components",
+  "version": "2.4.1",
+  "description": "Shared UI component library",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --port 3000",
+    "build": "tsc &amp;&amp; vite build",
+    "test": "vitest run --coverage",
+    "lint": "eslint src/ --ext .ts,.tsx",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "clsx": "^2.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12",
+    "vitest": "^1.2.0",
+    "@types/react": "^18.2.48"
+  },
+  "peerDependencies": {
+    "react": "&gt;=17.0.0"
+  }
+}</code></pre>
+
+    <h2>TypeScript</h2>
+    <p>Type definitions for an API client:</p>
+    <span class="lang-label">typescript</span>
+    <pre><code>// API client type definitions
+
+interface ApiConfig {
+  baseUrl: string;
+  timeout: number;
+  retries: number;
+  headers: Record&lt;string, string&gt;;
+}
+
+interface PaginatedResponse&lt;T&gt; {
+  data: T[];
+  total: number;
+  page: number;
+  pageSize: number;
+  hasNextPage: boolean;
+}
+
+type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+
+type RequestInterceptor = (config: ApiConfig) =&gt; ApiConfig | Promise&lt;ApiConfig&gt;;
+
+interface User {
+  id: string;
+  email: string;
+  displayName: string;
+  role: "admin" | "editor" | "viewer";
+  createdAt: Date;
+  metadata: Record&lt;string, unknown&gt;;
+}
+
+interface ApiClient {
+  get&lt;T&gt;(path: string): Promise&lt;T&gt;;
+  post&lt;T&gt;(path: string, body: unknown): Promise&lt;T&gt;;
+  listUsers(page?: number): Promise&lt;PaginatedResponse&lt;User&gt;&gt;;
+  addInterceptor(fn: RequestInterceptor): void;
+}
+
+export type { ApiConfig, PaginatedResponse, HttpMethod, User, ApiClient };</code></pre>
+
+    <hr>
+    <p><em>Notice how all the code looks like a wall of undifferentiated gray text. Keywords, strings, comments, and types all blend together, making it difficult to quickly parse the structure of any code block.</em></p>
+  </div>
+  <div class="footer">
+    <a href="https://md.page" target="_blank"><svg class="logo-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="11" fill="#4285F4"/><g stroke="#fff" stroke-width="4.5" stroke-linecap="round" fill="none" transform="translate(11, 8)"><line x1="11" y1="2" x2="7" y2="32"/><line x1="21" y1="2" x2="17" y2="32"/><line x1="4" y1="11" x2="25" y2="11"/><line x1="3" y1="23" x2="24" y2="23"/></g></svg> Made with <span class="brand">md.page</span></a>
+  </div>
+</body>
+</html>

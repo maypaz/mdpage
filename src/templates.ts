@@ -65,14 +65,28 @@ export function pageTemplate(content: string, options: TemplateOptions = {}): st
       font-size: 0.9em;
     }
     pre {
-      background: #1e1e1e;
-      color: #d4d4d4;
+      background: #282c34;
+      color: #abb2bf;
       padding: 1rem;
       border-radius: 6px;
       overflow-x: auto;
       margin-bottom: 1em;
     }
-    pre code { background: none; padding: 0; color: inherit; }
+    pre code { background: none; padding: 0; color: inherit; font-size: 0.9em; }
+    pre.hljs { background: #282c34; color: #abb2bf; }
+    .hljs-comment, .hljs-quote { color: #5c6370; font-style: italic; }
+    .hljs-doctag, .hljs-keyword, .hljs-formula { color: #c678dd; }
+    .hljs-section, .hljs-name, .hljs-selector-tag, .hljs-deletion, .hljs-subst { color: #e06c75; }
+    .hljs-literal { color: #56b6c2; }
+    .hljs-string, .hljs-regexp, .hljs-addition, .hljs-attribute, .hljs-meta .hljs-string { color: #98c379; }
+    .hljs-attr, .hljs-variable, .hljs-template-variable, .hljs-type, .hljs-selector-class, .hljs-selector-attr, .hljs-selector-pseudo, .hljs-number { color: #d19a66; }
+    .hljs-symbol, .hljs-bullet, .hljs-link, .hljs-meta, .hljs-selector-id, .hljs-title { color: #61afef; }
+    .hljs-built_in, .hljs-title.class_, .hljs-class .hljs-title { color: #e5c07b; }
+    .hljs-emphasis { font-style: italic; }
+    .hljs-strong { font-weight: bold; }
+    .hljs-link { text-decoration: underline; }
+    .hljs-title.function_ { color: #61afef; }
+    .hljs-params { color: #abb2bf; }
     blockquote {
       border-left: 3px solid #d1d5db;
       padding-left: 1rem;

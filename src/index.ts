@@ -1,4 +1,20 @@
 import MarkdownIt from "markdown-it";
+import hljs from "highlight.js/lib/core";
+import javascript from "highlight.js/lib/languages/javascript";
+import typescript from "highlight.js/lib/languages/typescript";
+import python from "highlight.js/lib/languages/python";
+import bash from "highlight.js/lib/languages/bash";
+import json from "highlight.js/lib/languages/json";
+import xml from "highlight.js/lib/languages/xml";
+import css from "highlight.js/lib/languages/css";
+import go from "highlight.js/lib/languages/go";
+import rust from "highlight.js/lib/languages/rust";
+import yaml from "highlight.js/lib/languages/yaml";
+import sql from "highlight.js/lib/languages/sql";
+import markdown from "highlight.js/lib/languages/markdown";
+import java from "highlight.js/lib/languages/java";
+import cpp from "highlight.js/lib/languages/cpp";
+import ruby from "highlight.js/lib/languages/ruby";
 import type { Env, PageData } from "./types";
 import { generateId, extractMeta, emit } from "./utils";
 import { FAVICON_SVG, CLAUDE_LOGO_SVG, LOGO_SVG, OG_IMAGE_PNG_B64 } from "./assets";
@@ -8,7 +24,49 @@ import { pageTemplate, expiredPageHtml, landingPageHtml, privacyPageHtml } from 
 export { generateId, escapeHtml, stripMarkdownInline, extractMeta } from "./utils";
 export { wrapText, parseMarkdownBlocks, generateOgSvg } from "./og";
 
-const md = new MarkdownIt({ html: false });
+hljs.registerLanguage("javascript", javascript);
+hljs.registerLanguage("typescript", typescript);
+hljs.registerLanguage("python", python);
+hljs.registerLanguage("bash", bash);
+hljs.registerLanguage("json", json);
+hljs.registerLanguage("xml", xml);
+hljs.registerLanguage("html", xml);
+hljs.registerLanguage("css", css);
+hljs.registerLanguage("go", go);
+hljs.registerLanguage("rust", rust);
+hljs.registerLanguage("yaml", yaml);
+hljs.registerLanguage("sql", sql);
+hljs.registerLanguage("markdown", markdown);
+hljs.registerLanguage("java", java);
+hljs.registerLanguage("cpp", cpp);
+hljs.registerLanguage("ruby", ruby);
+// Common aliases
+hljs.registerLanguage("js", javascript);
+hljs.registerLanguage("ts", typescript);
+hljs.registerLanguage("py", python);
+hljs.registerLanguage("sh", bash);
+hljs.registerLanguage("shell", bash);
+hljs.registerLanguage("yml", yaml);
+hljs.registerLanguage("rb", ruby);
+
+const md = new MarkdownIt({
+  html: false,
+  highlight: function (str: string, lang: string): string {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return '<pre class="hljs"><code>' +
+          hljs.highlight(str, { language: lang }).value +
+          "</code></pre>";
+      } catch (__) { /* fallthrough */ }
+    }
+    try {
+      return '<pre class="hljs"><code>' +
+        hljs.highlightAuto(str).value +
+        "</code></pre>";
+    } catch (__) { /* fallthrough */ }
+    return ""; // use external default escaping
+  },
+});
 const TTL = 86400; // 24 hours
 
 const CORS_HEADERS = {
@@ -127,7 +185,7 @@ export default {
       const page = JSON.parse(stored) as PageData;
       try {
         const pngData = await renderOgPng(page.title || "md.page", page.markdownPreview || page.description || "");
-        return new Response(pngData, {
+        return new Response(pngData as any, {
           headers: { "Content-Type": "image/png", "Cache-Control": "public, max-age=86400" },
         });
       } catch (err) {

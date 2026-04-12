@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AFTER: With Syntax Highlighting — md.page</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      color: #1a1a1a;
+      background: #fafafa;
+      padding: 2rem 1rem;
+    }
+    .banner {
+      max-width: 720px;
+      margin: 0 auto 1.5rem;
+      background: #16a34a;
+      color: #fff;
+      text-align: center;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.02em;
+      box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3);
+    }
+    .banner-sub {
+      font-weight: 400;
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin-top: 0.15rem;
+    }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 8px;
+      padding: 2.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    h1, h2, h3, h4, h5, h6 { margin-top: 1.5em; margin-bottom: 0.5em; font-weight: 600; }
+    .container > h1:first-child { margin-top: 0; }
+    h1 { font-size: 1.8rem; }
+    h2 { font-size: 1.4rem; }
+    h3 { font-size: 1.2rem; }
+    p { margin-bottom: 1em; }
+    a { color: #2563eb; }
+    code {
+      background: #f3f4f6;
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    pre {
+      background: #282c34;
+      color: #abb2bf;
+      padding: 1rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin-bottom: 1em;
+    }
+    pre code { background: none; padding: 0; color: inherit; font-size: 0.9em; }
+    blockquote {
+      border-left: 3px solid #d1d5db;
+      padding-left: 1rem;
+      color: #6b7280;
+      margin-bottom: 1em;
+    }
+    ul, ol { margin-bottom: 1em; padding-left: 1.5em; }
+    li { margin-bottom: 0.25em; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 1em; }
+    th, td { border: 1px solid #e5e7eb; padding: 0.5rem 0.75rem; text-align: left; }
+    th { background: #f9fafb; font-weight: 600; }
+    img { max-width: 100%; height: auto; border-radius: 4px; }
+    hr { border: none; border-top: 1px solid #e5e7eb; margin: 1.5em 0; }
+    .lang-label {
+      display: inline-block;
+      background: #3e4451;
+      color: #8b919e;
+      font-size: 0.7rem;
+      font-family: ui-monospace, 'SF Mono', SFMono-Regular, monospace;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px 4px 0 0;
+      margin-bottom: -1px;
+      position: relative;
+      top: 1px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 2rem;
+      padding-bottom: 1rem;
+    }
+    .footer a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #6b7280;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      border-radius: 20px;
+      padding: 0.4rem 0.9rem;
+      transition: all 0.2s;
+    }
+    .footer a:hover { color: #1a3a7a; background: #eef3ff; border-color: #c7d6f5; transform: translateY(-1px); box-shadow: 0 2px 8px rgba(66,133,244,0.1); }
+    .footer .logo-icon { width: 16px; height: 16px; flex-shrink: 0; }
+    .footer .brand { color: #1a3a7a; font-weight: 700; font-family: ui-monospace, 'SF Mono', monospace; font-size: 0.78rem; letter-spacing: -0.02em; }
+    @media (max-width: 600px) {
+      body { padding: 0; background: #fff; }
+      .banner { border-radius: 0; margin: 0 0 0; }
+      .container { max-width: 100%; border-radius: 0; box-shadow: none; padding: 1.25rem 1rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    AFTER: With Syntax Highlighting
+    <div class="banner-sub">Code blocks use Atom One Dark colors via highlight.js</div>
+  </div>
+  <div class="container">
+    <h1>Code Examples in md.page</h1>
+    <p>This page demonstrates how code blocks appear <strong>with</strong> syntax highlighting enabled. Keywords, strings, comments, types, and functions are all visually distinct, making code dramatically easier to read and understand.</p>
+
+    <h2>JavaScript</h2>
+    <p>A classic recursive Fibonacci function with memoization:</p>
+    <span class="lang-label">javascript</span>
+    <pre><code><span style="color: #5c6370; font-style: italic;">// Fibonacci with memoization</span>
+<span style="color: #c678dd;">function</span> <span style="color: #61afef;">fibonacci</span>(<span style="color: #abb2bf;">n</span>, <span style="color: #abb2bf;">memo</span> <span style="color: #c678dd;">=</span> {}) {
+  <span style="color: #c678dd;">if</span> (n <span style="color: #c678dd;">in</span> memo) <span style="color: #c678dd;">return</span> memo[n];
+  <span style="color: #c678dd;">if</span> (n <span style="color: #c678dd;">&lt;=</span> <span style="color: #d19a66;">1</span>) <span style="color: #c678dd;">return</span> n;
+
+  memo[n] = <span style="color: #61afef;">fibonacci</span>(n <span style="color: #c678dd;">-</span> <span style="color: #d19a66;">1</span>, memo) <span style="color: #c678dd;">+</span> <span style="color: #61afef;">fibonacci</span>(n <span style="color: #c678dd;">-</span> <span style="color: #d19a66;">2</span>, memo);
+  <span style="color: #c678dd;">return</span> memo[n];
+}
+
+<span style="color: #5c6370; font-style: italic;">// Generate first 10 Fibonacci numbers</span>
+<span style="color: #c678dd;">const</span> results = [];
+<span style="color: #c678dd;">for</span> (<span style="color: #c678dd;">let</span> i = <span style="color: #d19a66;">0</span>; i <span style="color: #c678dd;">&lt;</span> <span style="color: #d19a66;">10</span>; i<span style="color: #c678dd;">++</span>) {
+  results.<span style="color: #61afef;">push</span>(<span style="color: #61afef;">fibonacci</span>(i));
+}
+<span style="color: #e5c07b;">console</span>.<span style="color: #61afef;">log</span>(<span style="color: #98c379;">"Fibonacci sequence:"</span>, results);
+<span style="color: #5c6370; font-style: italic;">// Output: [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]</span></code></pre>
+
+    <h2>Python</h2>
+    <p>A data processing class with initialization and transformation methods:</p>
+    <span class="lang-label">python</span>
+    <pre><code><span style="color: #c678dd;">class</span> <span style="color: #e5c07b;">DataProcessor</span>:
+    <span style="color: #98c379;">"""Process and transform datasets for analysis."""</span>
+
+    <span style="color: #c678dd;">def</span> <span style="color: #61afef;">__init__</span>(<span style="color: #e06c75;">self</span>, <span style="color: #abb2bf;">source</span>, <span style="color: #abb2bf;">delimiter</span><span style="color: #c678dd;">=</span><span style="color: #98c379;">","</span>):
+        <span style="color: #e06c75;">self</span>.source = source
+        <span style="color: #e06c75;">self</span>.delimiter = delimiter
+        <span style="color: #e06c75;">self</span>.data = []
+        <span style="color: #e06c75;">self</span>.<span style="color: #61afef;">_load_data</span>()
+
+    <span style="color: #c678dd;">def</span> <span style="color: #61afef;">_load_data</span>(<span style="color: #e06c75;">self</span>):
+        <span style="color: #98c379;">"""Load data from the source file."""</span>
+        <span style="color: #c678dd;">with</span> <span style="color: #61afef;">open</span>(<span style="color: #e06c75;">self</span>.source, <span style="color: #98c379;">"r"</span>) <span style="color: #c678dd;">as</span> f:
+            <span style="color: #c678dd;">for</span> line <span style="color: #c678dd;">in</span> f:
+                row = line.<span style="color: #61afef;">strip</span>().<span style="color: #61afef;">split</span>(<span style="color: #e06c75;">self</span>.delimiter)
+                <span style="color: #e06c75;">self</span>.data.<span style="color: #61afef;">append</span>(row)
+        <span style="color: #61afef;">print</span>(<span style="color: #98c379;">f"Loaded <span style="color: #d19a66;">{<span style="color: #61afef;">len</span>(<span style="color: #e06c75;">self</span>.data)}</span> rows from <span style="color: #d19a66;">{<span style="color: #e06c75;">self</span>.source}</span>"</span>)
+
+    <span style="color: #c678dd;">def</span> <span style="color: #61afef;">filter_rows</span>(<span style="color: #e06c75;">self</span>, <span style="color: #abb2bf;">column_index</span>, <span style="color: #abb2bf;">predicate</span>):
+        <span style="color: #98c379;">"""Filter rows based on a predicate function."""</span>
+        filtered = [
+            row <span style="color: #c678dd;">for</span> row <span style="color: #c678dd;">in</span> <span style="color: #e06c75;">self</span>.data
+            <span style="color: #c678dd;">if</span> <span style="color: #61afef;">predicate</span>(row[column_index])
+        ]
+        <span style="color: #c678dd;">return</span> <span style="color: #e5c07b;">DataProcessor</span>.__new_from_data(filtered)
+
+    <span style="color: #c678dd;">@staticmethod</span>
+    <span style="color: #c678dd;">def</span> <span style="color: #61afef;">__new_from_data</span>(<span style="color: #abb2bf;">data</span>):
+        instance = <span style="color: #61afef;">object</span>.<span style="color: #61afef;">__new__</span>(<span style="color: #e5c07b;">DataProcessor</span>)
+        instance.data = data
+        <span style="color: #c678dd;">return</span> instance</code></pre>
+
+    <h2>Bash</h2>
+    <p>A deployment script with environment checks and rollback support:</p>
+    <span class="lang-label">bash</span>
+    <pre><code><span style="color: #5c6370; font-style: italic;">#!/bin/bash</span>
+<span style="color: #5c6370; font-style: italic;"># deploy.sh - Production deployment with rollback</span>
+
+<span style="color: #c678dd;">set</span> -euo pipefail
+
+<span style="color: #abb2bf;">APP_NAME</span><span style="color: #c678dd;">=</span><span style="color: #98c379;">"myapp"</span>
+<span style="color: #abb2bf;">DEPLOY_DIR</span><span style="color: #c678dd;">=</span><span style="color: #98c379;">"/opt/<span style="color: #d19a66;">${APP_NAME}</span>"</span>
+<span style="color: #abb2bf;">BACKUP_DIR</span><span style="color: #c678dd;">=</span><span style="color: #98c379;">"/opt/backups/<span style="color: #d19a66;">${APP_NAME}</span>"</span>
+<span style="color: #abb2bf;">TIMESTAMP</span><span style="color: #c678dd;">=</span><span style="color: #e5c07b;">$(</span><span style="color: #61afef;">date</span> +%Y%m%d_%H%M%S<span style="color: #e5c07b;">)</span>
+
+<span style="color: #61afef;">echo</span> <span style="color: #98c379;">"=== Deploying <span style="color: #d19a66;">${APP_NAME}</span> ==="</span>
+
+<span style="color: #5c6370; font-style: italic;"># Pre-flight checks</span>
+<span style="color: #c678dd;">if</span> [ ! -f <span style="color: #98c379;">"dist/bundle.js"</span> ]; <span style="color: #c678dd;">then</span>
+    <span style="color: #61afef;">echo</span> <span style="color: #98c379;">"ERROR: Build artifacts not found. Run 'npm run build' first."</span>
+    <span style="color: #c678dd;">exit</span> <span style="color: #d19a66;">1</span>
+<span style="color: #c678dd;">fi</span>
+
+<span style="color: #5c6370; font-style: italic;"># Create backup of current deployment</span>
+<span style="color: #61afef;">echo</span> <span style="color: #98c379;">"Creating backup..."</span>
+<span style="color: #61afef;">mkdir</span> -p <span style="color: #98c379;">"<span style="color: #d19a66;">${BACKUP_DIR}</span>"</span>
+<span style="color: #c678dd;">if</span> [ -d <span style="color: #98c379;">"<span style="color: #d19a66;">${DEPLOY_DIR}</span>/current"</span> ]; <span style="color: #c678dd;">then</span>
+    <span style="color: #61afef;">cp</span> -r <span style="color: #98c379;">"<span style="color: #d19a66;">${DEPLOY_DIR}</span>/current"</span> <span style="color: #98c379;">"<span style="color: #d19a66;">${BACKUP_DIR}</span>/<span style="color: #d19a66;">${TIMESTAMP}</span>"</span>
+    <span style="color: #61afef;">echo</span> <span style="color: #98c379;">"Backup saved to <span style="color: #d19a66;">${BACKUP_DIR}</span>/<span style="color: #d19a66;">${TIMESTAMP}</span>"</span>
+<span style="color: #c678dd;">fi</span>
+
+<span style="color: #5c6370; font-style: italic;"># Deploy new version</span>
+<span style="color: #61afef;">echo</span> <span style="color: #98c379;">"Deploying new version..."</span>
+<span style="color: #61afef;">rsync</span> -avz --delete dist/ <span style="color: #98c379;">"<span style="color: #d19a66;">${DEPLOY_DIR}</span>/current/"</span>
+
+<span style="color: #5c6370; font-style: italic;"># Health check</span>
+<span style="color: #61afef;">echo</span> <span style="color: #98c379;">"Running health check..."</span>
+<span style="color: #c678dd;">for</span> i <span style="color: #c678dd;">in</span> {<span style="color: #d19a66;">1</span>..<span style="color: #d19a66;">5</span>}; <span style="color: #c678dd;">do</span>
+    <span style="color: #c678dd;">if</span> <span style="color: #61afef;">curl</span> -sf http://localhost:3000/health &gt; /dev/null; <span style="color: #c678dd;">then</span>
+        <span style="color: #61afef;">echo</span> <span style="color: #98c379;">"Health check passed!"</span>
+        <span style="color: #c678dd;">exit</span> <span style="color: #d19a66;">0</span>
+    <span style="color: #c678dd;">fi</span>
+    <span style="color: #61afef;">echo</span> <span style="color: #98c379;">"Attempt <span style="color: #d19a66;">${i}</span>/5 failed, retrying in 3s..."</span>
+    <span style="color: #61afef;">sleep</span> <span style="color: #d19a66;">3</span>
+<span style="color: #c678dd;">done</span>
+
+<span style="color: #61afef;">echo</span> <span style="color: #98c379;">"ERROR: Health check failed. Rolling back..."</span>
+<span style="color: #61afef;">cp</span> -r <span style="color: #98c379;">"<span style="color: #d19a66;">${BACKUP_DIR}</span>/<span style="color: #d19a66;">${TIMESTAMP}</span>/"</span> <span style="color: #98c379;">"<span style="color: #d19a66;">${DEPLOY_DIR}</span>/current/"</span>
+<span style="color: #c678dd;">exit</span> <span style="color: #d19a66;">1</span></code></pre>
+
+    <h2>JSON</h2>
+    <p>A package configuration file:</p>
+    <span class="lang-label">json</span>
+    <pre><code>{
+  <span style="color: #e06c75;">"name"</span>: <span style="color: #98c379;">"@myorg/web-components"</span>,
+  <span style="color: #e06c75;">"version"</span>: <span style="color: #98c379;">"2.4.1"</span>,
+  <span style="color: #e06c75;">"description"</span>: <span style="color: #98c379;">"Shared UI component library"</span>,
+  <span style="color: #e06c75;">"main"</span>: <span style="color: #98c379;">"dist/index.js"</span>,
+  <span style="color: #e06c75;">"types"</span>: <span style="color: #98c379;">"dist/index.d.ts"</span>,
+  <span style="color: #e06c75;">"license"</span>: <span style="color: #98c379;">"MIT"</span>,
+  <span style="color: #e06c75;">"scripts"</span>: {
+    <span style="color: #e06c75;">"dev"</span>: <span style="color: #98c379;">"vite --port 3000"</span>,
+    <span style="color: #e06c75;">"build"</span>: <span style="color: #98c379;">"tsc &amp;&amp; vite build"</span>,
+    <span style="color: #e06c75;">"test"</span>: <span style="color: #98c379;">"vitest run --coverage"</span>,
+    <span style="color: #e06c75;">"lint"</span>: <span style="color: #98c379;">"eslint src/ --ext .ts,.tsx"</span>,
+    <span style="color: #e06c75;">"prepublishOnly"</span>: <span style="color: #98c379;">"npm run build"</span>
+  },
+  <span style="color: #e06c75;">"dependencies"</span>: {
+    <span style="color: #e06c75;">"react"</span>: <span style="color: #98c379;">"^18.2.0"</span>,
+    <span style="color: #e06c75;">"react-dom"</span>: <span style="color: #98c379;">"^18.2.0"</span>,
+    <span style="color: #e06c75;">"clsx"</span>: <span style="color: #98c379;">"^2.1.0"</span>
+  },
+  <span style="color: #e06c75;">"devDependencies"</span>: {
+    <span style="color: #e06c75;">"typescript"</span>: <span style="color: #98c379;">"^5.3.3"</span>,
+    <span style="color: #e06c75;">"vite"</span>: <span style="color: #98c379;">"^5.0.12"</span>,
+    <span style="color: #e06c75;">"vitest"</span>: <span style="color: #98c379;">"^1.2.0"</span>,
+    <span style="color: #e06c75;">"@types/react"</span>: <span style="color: #98c379;">"^18.2.48"</span>
+  },
+  <span style="color: #e06c75;">"peerDependencies"</span>: {
+    <span style="color: #e06c75;">"react"</span>: <span style="color: #98c379;">"&gt;=17.0.0"</span>
+  }
+}</code></pre>
+
+    <h2>TypeScript</h2>
+    <p>Type definitions for an API client:</p>
+    <span class="lang-label">typescript</span>
+    <pre><code><span style="color: #5c6370; font-style: italic;">// API client type definitions</span>
+
+<span style="color: #c678dd;">interface</span> <span style="color: #e5c07b;">ApiConfig</span> {
+  <span style="color: #e06c75;">baseUrl</span>: <span style="color: #e5c07b;">string</span>;
+  <span style="color: #e06c75;">timeout</span>: <span style="color: #e5c07b;">number</span>;
+  <span style="color: #e06c75;">retries</span>: <span style="color: #e5c07b;">number</span>;
+  <span style="color: #e06c75;">headers</span>: <span style="color: #e5c07b;">Record</span>&lt;<span style="color: #e5c07b;">string</span>, <span style="color: #e5c07b;">string</span>&gt;;
+}
+
+<span style="color: #c678dd;">interface</span> <span style="color: #e5c07b;">PaginatedResponse</span>&lt;<span style="color: #e5c07b;">T</span>&gt; {
+  <span style="color: #e06c75;">data</span>: <span style="color: #e5c07b;">T</span>[];
+  <span style="color: #e06c75;">total</span>: <span style="color: #e5c07b;">number</span>;
+  <span style="color: #e06c75;">page</span>: <span style="color: #e5c07b;">number</span>;
+  <span style="color: #e06c75;">pageSize</span>: <span style="color: #e5c07b;">number</span>;
+  <span style="color: #e06c75;">hasNextPage</span>: <span style="color: #e5c07b;">boolean</span>;
+}
+
+<span style="color: #c678dd;">type</span> <span style="color: #e5c07b;">HttpMethod</span> = <span style="color: #98c379;">"GET"</span> | <span style="color: #98c379;">"POST"</span> | <span style="color: #98c379;">"PUT"</span> | <span style="color: #98c379;">"PATCH"</span> | <span style="color: #98c379;">"DELETE"</span>;
+
+<span style="color: #c678dd;">type</span> <span style="color: #e5c07b;">RequestInterceptor</span> = (<span style="color: #abb2bf;">config</span>: <span style="color: #e5c07b;">ApiConfig</span>) =&gt; <span style="color: #e5c07b;">ApiConfig</span> | <span style="color: #e5c07b;">Promise</span>&lt;<span style="color: #e5c07b;">ApiConfig</span>&gt;;
+
+<span style="color: #c678dd;">interface</span> <span style="color: #e5c07b;">User</span> {
+  <span style="color: #e06c75;">id</span>: <span style="color: #e5c07b;">string</span>;
+  <span style="color: #e06c75;">email</span>: <span style="color: #e5c07b;">string</span>;
+  <span style="color: #e06c75;">displayName</span>: <span style="color: #e5c07b;">string</span>;
+  <span style="color: #e06c75;">role</span>: <span style="color: #98c379;">"admin"</span> | <span style="color: #98c379;">"editor"</span> | <span style="color: #98c379;">"viewer"</span>;
+  <span style="color: #e06c75;">createdAt</span>: <span style="color: #e5c07b;">Date</span>;
+  <span style="color: #e06c75;">metadata</span>: <span style="color: #e5c07b;">Record</span>&lt;<span style="color: #e5c07b;">string</span>, <span style="color: #e5c07b;">unknown</span>&gt;;
+}
+
+<span style="color: #c678dd;">interface</span> <span style="color: #e5c07b;">ApiClient</span> {
+  <span style="color: #61afef;">get</span>&lt;<span style="color: #e5c07b;">T</span>&gt;(<span style="color: #abb2bf;">path</span>: <span style="color: #e5c07b;">string</span>): <span style="color: #e5c07b;">Promise</span>&lt;<span style="color: #e5c07b;">T</span>&gt;;
+  <span style="color: #61afef;">post</span>&lt;<span style="color: #e5c07b;">T</span>&gt;(<span style="color: #abb2bf;">path</span>: <span style="color: #e5c07b;">string</span>, <span style="color: #abb2bf;">body</span>: <span style="color: #e5c07b;">unknown</span>): <span style="color: #e5c07b;">Promise</span>&lt;<span style="color: #e5c07b;">T</span>&gt;;
+  <span style="color: #61afef;">listUsers</span>(<span style="color: #abb2bf;">page</span>?: <span style="color: #e5c07b;">number</span>): <span style="color: #e5c07b;">Promise</span>&lt;<span style="color: #e5c07b;">PaginatedResponse</span>&lt;<span style="color: #e5c07b;">User</span>&gt;&gt;;
+  <span style="color: #61afef;">addInterceptor</span>(<span style="color: #abb2bf;">fn</span>: <span style="color: #e5c07b;">RequestInterceptor</span>): <span style="color: #c678dd;">void</span>;
+}
+
+<span style="color: #c678dd;">export</span> <span style="color: #c678dd;">type</span> { <span style="color: #e5c07b;">ApiConfig</span>, <span style="color: #e5c07b;">PaginatedResponse</span>, <span style="color: #e5c07b;">HttpMethod</span>, <span style="color: #e5c07b;">User</span>, <span style="color: #e5c07b;">ApiClient</span> };</code></pre>
+
+    <hr>
+    <p><em>Notice how syntax highlighting makes each code block dramatically easier to read. Keywords (purple), strings (green), comments (gray italic), functions (blue), types (yellow), and numbers (orange) are all immediately distinguishable, letting you scan and understand code structure at a glance.</em></p>
+  </div>
+  <div class="footer">
+    <a href="https://md.page" target="_blank"><svg class="logo-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="11" fill="#4285F4"/><g stroke="#fff" stroke-width="4.5" stroke-linecap="round" fill="none" transform="translate(11, 8)"><line x1="11" y1="2" x2="7" y2="32"/><line x1="21" y1="2" x2="17" y2="32"/><line x1="4" y1="11" x2="25" y2="11"/><line x1="3" y1="23" x2="24" y2="23"/></g></svg> Made with <span class="brand">md.page</span></a>
+  </div>
+</body>
+</html>
