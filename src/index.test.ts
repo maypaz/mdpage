@@ -533,6 +533,52 @@ describe("Worker", () => {
     });
   });
 
+  // -- Mermaid diagram support -----------------------------------------------
+
+  describe("mermaid diagrams", () => {
+    it("renders mermaid fence as <pre class=\"mermaid\">", async () => {
+      const res = await publish("```mermaid\ngraph TD\n  A-->B\n```");
+      const { url } = await res.json<{ url: string }>();
+      const id = url.split("/").pop()!;
+      const stored = JSON.parse((await env.PAGES.get(id))!);
+      expect(stored.html).toContain('<pre class="mermaid">');
+      expect(stored.html).not.toContain('class="language-mermaid"');
+    });
+
+    it("loads mermaid script when page contains mermaid blocks", async () => {
+      await env.PAGES.put("mRm001", JSON.stringify({ html: '<pre class="mermaid">graph TD\n  A--&gt;B\n</pre>\n', title: "Test", description: "Test" }));
+      const res = await exports.default.fetch(new Request("https://md.page/mRm001"));
+      const html = await res.text();
+      expect(html).toContain("mermaid.esm.min.mjs");
+      expect(html).toContain("mermaid.initialize");
+    });
+
+    it("does not load mermaid script on non-mermaid pages", async () => {
+      await env.PAGES.put("nMrm01", JSON.stringify({ html: "<p>No diagrams here</p>\n", title: "Test", description: "Test" }));
+      const res = await exports.default.fetch(new Request("https://md.page/nMrm01"));
+      const html = await res.text();
+      expect(html).not.toContain("mermaid.esm.min.mjs");
+    });
+
+    it("escapes HTML in mermaid blocks to prevent XSS", async () => {
+      const res = await publish('```mermaid\ngraph TD\n  A[<script>alert("xss")</script>]\n```');
+      const { url } = await res.json<{ url: string }>();
+      const id = url.split("/").pop()!;
+      const stored = JSON.parse((await env.PAGES.get(id))!);
+      expect(stored.html).not.toContain("<script>");
+      expect(stored.html).toContain("&lt;script&gt;");
+    });
+
+    it("does not affect regular code blocks", async () => {
+      const res = await publish("```js\nconst x = 1;\n```");
+      const { url } = await res.json<{ url: string }>();
+      const id = url.split("/").pop()!;
+      const stored = JSON.parse((await env.PAGES.get(id))!);
+      expect(stored.html).toContain("<code");
+      expect(stored.html).not.toContain('class="mermaid"');
+    });
+  });
+
   // -- Dynamic OG images ---------------------------------------------------
 
   describe("GET /og/:id.png", () => {

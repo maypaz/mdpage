@@ -73,6 +73,7 @@ export function pageTemplate(content: string, options: TemplateOptions = {}): st
       margin-bottom: 1em;
     }
     pre code { background: none; padding: 0; color: inherit; }
+    pre.mermaid { background: none; color: inherit; text-align: center; padding: 1rem 0; }
     blockquote {
       border-left: 3px solid #d1d5db;
       padding-left: 1rem;
@@ -134,7 +135,14 @@ export function pageTemplate(content: string, options: TemplateOptions = {}): st
   <div class="container">${content}</div>
   <div class="footer">
     <a href="https://md.page" target="_blank"><svg class="logo-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="11" fill="#4285F4"/><g stroke="#fff" stroke-width="4.5" stroke-linecap="round" fill="none" transform="translate(11, 8)"><line x1="11" y1="2" x2="7" y2="32"/><line x1="21" y1="2" x2="17" y2="32"/><line x1="4" y1="11" x2="25" y2="11"/><line x1="3" y1="23" x2="24" y2="23"/></g></svg> Made with <span class="brand">md.page</span></a>
-  </div>
+  </div>${content.includes('class="mermaid"') ? `
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default',
+    });
+  </script>` : ''}
 </body>
 </html>`;
 }
