@@ -9,6 +9,8 @@ plans/
 scripts/
 .env.local
 mcp/build/
+migrations/
+.vscode/
 .mcp.json
 .playwright-mcp/
 .agents/
