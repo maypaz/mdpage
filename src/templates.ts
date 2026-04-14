@@ -770,7 +770,7 @@ const APP_STYLES = `
   .settings-link.active { background: var(--accent-subtle); color: var(--accent); }
 
   .sidebar-avatar {
-    width: 40px; height: 40px;
+    width: 30px; height: 30px;
     border-radius: 50%;
     border: 1.5px solid var(--border);
   }
