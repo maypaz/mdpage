@@ -3,7 +3,7 @@ import MarkdownIt from "markdown-it";
 import type { Env } from "./types";
 import { authRequired } from "./middleware";
 import type { User } from "./middleware";
-import { generateId, extractMeta, hashKey } from "./utils";
+import { generateId, extractMeta, hashKey, emit } from "./utils";
 import { slugify, isReservedSlug } from "./username";
 
 type HonoEnv = {
@@ -61,6 +61,8 @@ api.post("/keys", async (c) => {
   await c.env.DB.prepare("INSERT INTO api_keys (id, user_id, key_hash, label) VALUES (?, ?, ?, ?)")
     .bind(id, user.id, keyHash, label)
     .run();
+
+  emit(c.env, "api_key_create");
 
   // Return the raw key only once — it cannot be retrieved again
   return c.json({ id, key: rawKey, label }, 201);
@@ -199,6 +201,8 @@ api.post("/pages", async (c) => {
     "INSERT INTO pages (id, user_id, slug, title, visibility, created_via) VALUES (?, ?, ?, ?, ?, ?)"
   ).bind(id, user.id, slug, title, visibility, createdVia).run();
 
+  emit(c.env, "page_create", createdVia);
+
   const url = new URL(c.req.url);
   const pageUrl = `${url.protocol}//${user.username}.${url.hostname}/${slug}`;
 
@@ -273,6 +277,9 @@ api.put("/pages/:id", async (c) => {
     await c.env.DB.prepare(
       `UPDATE pages SET ${updates.join(", ")} WHERE id = ? AND user_id = ?`
     ).bind(...values).run();
+
+    const isApi = (c.req.header("authorization") || "").startsWith("Bearer mdp_");
+    emit(c.env, "page_update", isApi ? "api" : "web");
   }
 
   return c.json({ ok: true });
@@ -292,6 +299,8 @@ api.delete("/pages/:id", async (c) => {
 
   // Remove content from KV
   await c.env.PAGES.delete(pageId);
+
+  emit(c.env, "page_delete");
 
   return c.json({ ok: true });
 });

@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import MarkdownIt from "markdown-it";
 import type { Env } from "./types";
 import { WELCOME_DOC_MARKDOWN, WELCOME_DOC_TITLE, WELCOME_DOC_SLUG } from "./templates";
-import { generateId, extractMeta, hashKey } from "./utils";
+import { generateId, extractMeta, hashKey, emit } from "./utils";
 import { validateUsername } from "./username";
 
 type HonoEnv = { Bindings: Env };
@@ -194,6 +194,9 @@ auth.get("/github/callback", async (c) => {
   const user = await c.env.DB.prepare("SELECT id FROM users WHERE github_id = ?")
     .bind(ghUser.id).first<{ id: string }>();
 
+  // Detect signup vs login: if the DB id matches our generated id, it was an INSERT (new user)
+  emit(c.env, user!.id === userId ? "user_signup" : "user_login", "github");
+
   await createWelcomeDoc(c.env.DB, c.env.PAGES, user!.id);
 
   const sessionId = await createSession(c.env.DB, user!.id);
@@ -277,6 +280,9 @@ auth.get("/google/callback", async (c) => {
     // Get the actual user id
     const user = await c.env.DB.prepare("SELECT id FROM users WHERE google_id = ?")
       .bind(gUser.id).first<{ id: string }>();
+
+    // Detect signup vs login: if the DB id matches our generated id, it was an INSERT (new user)
+    emit(c.env, user!.id === userId ? "user_signup" : "user_login", "google");
 
     await createWelcomeDoc(c.env.DB, c.env.PAGES, user!.id);
 
