@@ -9,13 +9,14 @@
 <h3 align="center">Instantly turn Markdown into a shareable web page.</h3>
 
 <p align="center">
-  100% free. No signup. Auto-expires in 24h.
+  Free anonymous pages expire in 24h. Sign in for permanent pages with your own subdomain.
 </p>
 
 <p align="center">
   <a href="https://md.page">Website</a> ·
   <a href="#add-to-your-ai-agent">AI Agents</a> ·
   <a href="#api">API</a> ·
+  <a href="#accounts--subdomains">Accounts</a> ·
   <a href="#self-hosting">Self-Host</a>
 </p>
 
@@ -140,9 +141,87 @@ View a published page. Returns rendered HTML.
 - **Beautiful** — clean typography, code blocks, tables, responsive design
 - **Short URLs** — `md.page/a8Xk2m` (6-character IDs)
 - **Private** — links are unguessable, only people with the URL can view
-- **Auto-expiry** — pages self-delete after 24 hours
-- **No auth** — no accounts, no API keys, just send markdown
+- **Auto-expiry** — anonymous pages self-delete after 24 hours
+- **Permanent pages** — sign in for pages that never expire
+- **Your subdomain** — `username.md.page/slug`
+- **API keys** — programmatic publishing from any agent or script
+- **Visibility control** — public or private per page
 - **AI agent friendly** — designed to work with any AI agent or LLM
+
+---
+
+## Accounts & Subdomains
+
+Sign in at [md.page/login](https://md.page/login) with Google to get:
+
+- **Your own subdomain** — `username.md.page`
+- **Permanent pages** — up to 10 docs that never expire
+- **API keys** — publish from scripts, CI, or AI agents
+- **Dashboard** — manage all your pages from one place
+- **Visibility control** — make pages public or private
+
+### Authenticated API
+
+All authenticated endpoints require either a session cookie or an API key (`Authorization: Bearer mdp_xxx`).
+
+Create API keys from your [settings page](https://md.page/docs/settings).
+
+#### `POST /api/pages` — create a permanent page
+
+```bash
+curl -X POST https://md.page/api/pages \
+  -H "Authorization: Bearer mdp_YOUR_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"markdown": "# Hello", "title": "hello", "slug": "hello", "visibility": "public"}'
+```
+
+```json
+{
+  "id": "a8Xk2m",
+  "url": "https://username.md.page/hello",
+  "slug": "hello",
+  "visibility": "public"
+}
+```
+
+#### `PUT /api/pages/:id` — update a page
+
+```bash
+curl -X PUT https://md.page/api/pages/a8Xk2m \
+  -H "Authorization: Bearer mdp_YOUR_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"markdown": "# Updated content"}'
+```
+
+#### `DELETE /api/pages/:id` — delete a page
+
+```bash
+curl -X DELETE https://md.page/api/pages/a8Xk2m \
+  -H "Authorization: Bearer mdp_YOUR_KEY"
+```
+
+#### `GET /api/pages` — list your pages
+
+```bash
+curl https://md.page/api/pages \
+  -H "Authorization: Bearer mdp_YOUR_KEY"
+```
+
+#### `GET /api/me` — current user info
+
+```bash
+curl https://md.page/api/me \
+  -H "Authorization: Bearer mdp_YOUR_KEY"
+```
+
+#### API Key Management
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/keys` | Create a new API key (max 5) |
+| `GET` | `/api/keys` | List your API keys |
+| `PATCH` | `/api/keys/:id` | Rename a key |
+| `DELETE` | `/api/keys/:id` | Revoke a key |
 
 ## Self-Hosting
 
@@ -181,9 +260,10 @@ npm run dev
 
 ## Tech Stack
 
-- **Runtime:** [Cloudflare Workers](https://workers.cloudflare.com/)
-- **Storage:** [Cloudflare KV](https://developers.cloudflare.com/kv/)
+- **Runtime:** [Cloudflare Workers](https://workers.cloudflare.com/) ([Hono](https://hono.dev/) framework)
+- **Storage:** [Cloudflare KV](https://developers.cloudflare.com/kv/) (page content), [D1](https://developers.cloudflare.com/d1/) (users, sessions, keys, pages metadata), [R2](https://developers.cloudflare.com/r2/) (assets)
 - **Markdown:** [markdown-it](https://github.com/markdown-it/markdown-it)
+- **Auth:** Google OAuth 2.0
 
 ## Contributing
 

@@ -250,4 +250,10 @@ app.get("/:id{[a-zA-Z0-9]{6}}", async (c) => {
   });
 });
 
-export default app;
+export default {
+  fetch: app.fetch,
+  async scheduled(_event: ScheduledEvent, env: Env, _ctx: ExecutionContext) {
+    // Clean up expired sessions
+    await env.DB.prepare("DELETE FROM sessions WHERE expires_at < datetime('now')").run();
+  },
+};
