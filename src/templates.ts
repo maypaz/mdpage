@@ -42,11 +42,11 @@ export function pageTemplate(content: string, options: TemplateOptions = {}): st
       line-height: 1.6;
       color: #1a1a1a;
       background: #fafafa;
-      padding: 2rem 1rem;
+      padding: 0 1rem 2rem;
     }
     .container {
       max-width: 720px;
-      margin: 0 auto;
+      margin: 2rem auto 0;
       background: #fff;
       border-radius: 8px;
       padding: 2.5rem;
@@ -88,6 +88,19 @@ export function pageTemplate(content: string, options: TemplateOptions = {}): st
     th { background: #f9fafb; font-weight: 600; }
     img { max-width: 100%; height: auto; border-radius: 4px; }
     hr { border: none; border-top: 1px solid #e5e7eb; margin: 1.5em 0; }
+    /* Header */
+    .site-header { position: sticky; top: 0; z-index: 100; background: rgba(250,250,250,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid #e5e7eb; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; padding: 10px 24px; }
+    .header-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .header-logo-text { font-family: ui-monospace, 'SF Mono', SFMono-Regular, 'Courier New', monospace; font-size: 1rem; font-weight: 700; letter-spacing: -0.5px; color: #1a1a1a; }
+    .header-nav { display: flex; align-items: center; gap: 8px; }
+    .header-btn { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.4rem 0.9rem; border-radius: 8px; font-size: 0.8rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: all 0.15s; }
+    .header-btn-primary { background: #4285F4; color: #fff; }
+    .header-btn-primary:hover { background: #2b6de0; transform: translateY(-1px); box-shadow: 0 2px 8px rgba(66,133,244,0.3); }
+    .header-btn-ghost { background: transparent; color: #6b7280; border: 1px solid #e5e7eb; }
+    .header-btn-ghost:hover { border-color: #9ca3af; color: #1a1a1a; transform: translateY(-1px); }
+    .header-btn-ghost svg { width: 14px; height: 14px; }
+
     .footer {
       text-align: center;
       margin-top: 2rem;
@@ -119,6 +132,11 @@ export function pageTemplate(content: string, options: TemplateOptions = {}): st
       th, td { border-color: #444; }
       th { background: #333; }
       hr { border-top-color: #444; }
+      .site-header { background: rgba(26,26,26,0.85); border-bottom-color: #333; }
+      .header-logo-text { color: #e5e5e5; }
+      .header-btn-ghost { border-color: #333; color: #b0b0b0; }
+      .header-btn-ghost:hover { border-color: #555; color: #e5e5e5; }
+      .header-btn-ghost svg { fill: #b0b0b0; }
       .footer a { color: #888; background: #222; border-color: #333; }
       .footer a:hover { color: #60a5fa; background: #1a2744; border-color: #2a4a7a; box-shadow: 0 2px 8px rgba(66,133,244,0.15); }
       .footer .brand { color: #60a5fa; }
@@ -126,6 +144,8 @@ export function pageTemplate(content: string, options: TemplateOptions = {}): st
     @media (max-width: 600px) {
       body { padding: 0; background: #fff; }
       .container { max-width: 100%; border-radius: 0; box-shadow: none; padding: 1.25rem 1rem 2rem; }
+      .header-inner { padding: 10px 16px; }
+      .header-logo-text { font-size: 0.9rem; }
       @media (prefers-color-scheme: dark) {
         body { background: #2a2a2a; }
       }
@@ -133,6 +153,18 @@ export function pageTemplate(content: string, options: TemplateOptions = {}): st
   </style>
 </head>
 <body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="https://md.page" class="header-logo">
+        <svg width="24" height="24" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="11" fill="#4285F4"/><g stroke="#fff" stroke-width="4.5" stroke-linecap="round" fill="none" transform="translate(11, 8)"><line x1="11" y1="2" x2="7" y2="32"/><line x1="21" y1="2" x2="17" y2="32"/><line x1="4" y1="11" x2="25" y2="11"/><line x1="3" y1="23" x2="24" y2="23"/></g></svg>
+        <span class="header-logo-text">md.page</span>
+      </a>
+      <nav class="header-nav">
+        <a href="https://github.com/maypaz/md.page" target="_blank" class="header-btn header-btn-ghost"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> GitHub</a>
+        <a href="https://md.page/login" class="header-btn header-btn-primary">Platform &rarr;</a>
+      </nav>
+    </div>
+  </header>
   <div class="container">${content}</div>
   <div class="footer">
     <a href="https://md.page" target="_blank"><svg class="logo-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" rx="11" fill="#4285F4"/><g stroke="#fff" stroke-width="4.5" stroke-linecap="round" fill="none" transform="translate(11, 8)"><line x1="11" y1="2" x2="7" y2="32"/><line x1="21" y1="2" x2="17" y2="32"/><line x1="4" y1="11" x2="25" y2="11"/><line x1="3" y1="23" x2="24" y2="23"/></g></svg> Made with <span class="brand">md.page</span></a>
