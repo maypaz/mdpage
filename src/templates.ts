@@ -229,6 +229,19 @@ export function landingPageHtml(origin: string): string {
     body { font-family: var(--sans); line-height: 1.6; color: var(--text-primary); background: var(--bg-primary); }
     a { color: var(--blue); }
 
+    /* Header */
+    .site-header { position: sticky; top: 0; z-index: 100; background: rgba(240,242,245,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; }
+    .header-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .header-logo-text { font-family: var(--mono); font-size: 1.15rem; font-weight: 700; letter-spacing: -0.5px; color: var(--text-primary); }
+    .header-nav { display: flex; align-items: center; gap: 10px; }
+    .header-btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 1.1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: all 0.15s; }
+    .header-btn-primary { background: var(--blue); color: #fff; }
+    .header-btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); box-shadow: 0 2px 8px rgba(66,133,244,0.3); }
+    .header-btn-ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
+    .header-btn-ghost:hover { border-color: var(--text-tertiary); color: var(--text-primary); transform: translateY(-1px); }
+    .header-btn-ghost svg { width: 16px; height: 16px; }
+
     /* Sections */
     .section { padding: 80px 24px; }
     .section-inner { max-width: 1100px; margin: 0 auto; }
@@ -236,18 +249,11 @@ export function landingPageHtml(origin: string): string {
     .section-sub { font-size: 1.1rem; color: var(--text-secondary); text-align: center; max-width: 720px; margin: 0 auto 2.5rem; }
 
     /* Hero */
-    .hero { background: var(--bg-gradient); padding: 100px 24px 80px; text-align: center; }
-    .hero-logo { display: inline-flex; align-items: center; gap: 14px; margin-bottom: 1.5rem; }
-    .hero-logo-text { font-family: var(--mono); font-size: 48px; font-weight: 700; letter-spacing: -1px; color: var(--text-primary); }
+    .hero { background: var(--bg-gradient); padding: 48px 24px 60px; text-align: center; }
     .hero h1 { font-size: 3rem; font-weight: 700; letter-spacing: -0.025em; line-height: 1.15; margin-bottom: 1rem; }
-    .hero-sub { font-size: 1.2rem; color: var(--text-secondary); max-width: 560px; margin: 0 auto 2rem; line-height: 1.6; }
-    .hero-ctas { display: flex; gap: 12px; justify-content: center; margin-bottom: 2.5rem; }
-    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 2rem; border-radius: 10px; font-size: 1rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; color: #fff; transition: transform 0.15s, box-shadow 0.15s, background 0.15s; }
-    .btn:active { transform: scale(0.97); }
-    .btn-primary { background: linear-gradient(135deg, var(--blue), var(--blue-dark)); box-shadow: 0 2px 8px rgba(66,133,244,0.25); }
-    .btn-primary:hover { background: linear-gradient(135deg, #5a9af5, #2b6de0); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(66,133,244,0.35); }
-    .btn-github { background: linear-gradient(135deg, #24292e, #40464d); box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
-    .btn-github:hover { background: linear-gradient(135deg, #2d333b, #4a5058); box-shadow: 0 4px 14px rgba(0,0,0,0.2); transform: translateY(-1px); }
+    .hero-sub { font-size: 1.2rem; color: var(--text-secondary); max-width: 560px; margin: 0 auto 2.5rem; line-height: 1.6; }
+    .hero-video { max-width: 680px; margin: 0 auto 2.5rem; border-radius: 14px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+    .hero-video video { width: 100%; display: block; }
 
     /* Agent parade */
     .parade-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-tertiary); margin-bottom: 0.75rem; }
@@ -257,20 +263,8 @@ export function landingPageHtml(origin: string): string {
     .parade-item span { font-size: 0.82rem; font-weight: 500; color: var(--text-primary); }
     .parade-sep { width: 1px; height: 20px; background: var(--border); }
 
-    /* Demo */
-    .demo { background: var(--bg-primary); }
-    .demo-video { max-width: 900px; margin: 0 auto 3rem; border-radius: 14px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
-    .demo-video video { width: 100%; display: block; }
-    .steps { display: flex; gap: 40px; justify-content: center; align-items: flex-start; max-width: 700px; margin: 0 auto; }
-    .step { flex: 1; text-align: center; position: relative; }
-    .step-num { width: 36px; height: 36px; border-radius: 50%; background: var(--blue); color: #fff; font-size: 0.9rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 0.75rem; }
-    .step h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.35rem; }
-    .step p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
-    .step-arrow { position: absolute; top: 18px; right: -28px; color: var(--text-tertiary); font-size: 1.2rem; }
-
     /* Agents */
     .agents { background: var(--bg-secondary); }
-    .agents .parade { margin-bottom: 2.5rem; }
     .int-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
     .int-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 24px 24px; display: flex; flex-direction: column; box-shadow: var(--card-shadow); transition: box-shadow 0.2s, transform 0.2s; }
     .int-card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-2px); }
@@ -350,38 +344,31 @@ export function landingPageHtml(origin: string): string {
     /* Tablet */
     @media (max-width: 768px) {
       .hero h1 { font-size: 2.25rem; }
-      .hero-logo-text { font-size: 38px; }
       .section-heading { font-size: 1.75rem; }
       .int-cards { grid-template-columns: 1fr 1fr; }
       .int-cards .int-card:last-child { grid-column: 1 / -1; }
-      .steps { gap: 24px; }
-      .step-arrow { display: none; }
       .parade { gap: 14px; padding: 10px 20px; flex-wrap: wrap; justify-content: center; }
     }
 
     /* Mobile */
     @media (max-width: 480px) {
-      .hero { padding: 64px 20px 48px; }
+      .hero { padding: 40px 16px 48px; }
       .hero h1 { font-size: 1.75rem; }
-      .hero-logo-text { font-size: 32px; }
       .hero-sub { font-size: 1rem; }
-      .hero-ctas { flex-direction: column; align-items: stretch; }
-      .btn { justify-content: center; }
+      .hero-video { border-radius: 10px; }
       .section { padding: 48px 16px; }
       .section-heading { font-size: 1.5rem; }
       .section-sub { font-size: 0.95rem; }
       .int-cards { grid-template-columns: 1fr; }
       .int-cards .int-card:last-child { grid-column: auto; }
-      .steps { flex-direction: column; gap: 20px; }
-      .step-arrow { display: none; }
       .parade { gap: 10px; padding: 10px 16px; }
       .parade-item span { font-size: 0.72rem; }
       .parade-item img { width: 20px; height: 20px; }
       .int-code { font-size: 0.7rem; }
-      .demo-video { border-radius: 10px; }
       .site-footer { flex-direction: column; align-items: center; text-align: center; gap: 0.75rem; }
       .site-footer > div { align-items: center; }
       .footer-right { flex-direction: row; justify-content: center; align-self: center; gap: 1rem; }
+      .header-logo-text { font-size: 1rem; }
     }
 
     /* Dark mode */
@@ -398,12 +385,14 @@ export function landingPageHtml(origin: string): string {
         --card-shadow: 0 4px 20px rgba(0,0,0,0.3);
         --card-shadow-hover: 0 8px 30px rgba(0,0,0,0.4);
       }
-      .btn-github { background: #2a2a2a; border: 1px solid #444; }
-      .btn-github:hover { background: #333; }
+      .site-header { background: rgba(10,10,10,0.85); border-bottom-color: #2a2a2a; }
+      .header-btn-ghost { border-color: #333; color: #b0b0b0; }
+      .header-btn-ghost:hover { border-color: #555; color: #e5e5e5; }
+      .header-btn-ghost svg { fill: #b0b0b0; }
       .parade { background: var(--card-bg); border-color: var(--border); }
       .try-terminal { border-color: #30363d; }
       .try-terminal-header { background: #0d1117; }
-      .demo-video { box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+      .hero-video { box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
       #copied-msg { color: #60a5fa; }
       .try-status a { color: #60a5fa; }
     }
@@ -411,11 +400,11 @@ export function landingPageHtml(origin: string): string {
 </head>
 <body>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="section-inner">
-      <div class="hero-logo anim d1">
-        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="header-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 48 48">
           <rect width="48" height="48" rx="11" fill="#4285F4"/>
           <g stroke="#fff" stroke-width="4.5" stroke-linecap="round" fill="none" transform="translate(11, 8)">
             <line x1="11" y1="2" x2="7" y2="32"/>
@@ -424,15 +413,26 @@ export function landingPageHtml(origin: string): string {
             <line x1="3" y1="23" x2="24" y2="23"/>
           </g>
         </svg>
-        <span class="hero-logo-text">md.page</span>
+        <span class="header-logo-text">md.page</span>
+      </a>
+      <nav class="header-nav">
+        <a href="https://github.com/maypaz/md.page" target="_blank" class="header-btn header-btn-ghost" onclick="trackClick('github_click')"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> GitHub</a>
+        <a href="/login" class="header-btn header-btn-primary">Platform &rarr;</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="section-inner">
+      <h1 class="anim d1">Markdown in, shareable page out.</h1>
+      <p class="hero-sub anim d2">Turn any Markdown into a beautiful web page in seconds.<br>No signup. No setup. Auto-expires in 24h.</p>
+      <div class="hero-video anim d3">
+        <video autoplay loop muted playsinline preload="auto">
+          <source src="/lp.mp4" type="video/mp4">
+        </video>
       </div>
-      <h1 class="anim d2">Markdown in, shareable page out.</h1>
-      <p class="hero-sub anim d3">Turn any Markdown into a beautiful web page in seconds.<br>No signup. No setup. Auto-expires in 24h.</p>
-      <div class="hero-ctas anim d4">
-        <a href="#try-section" class="btn btn-primary" onclick="scrollToTry(event)">Try it live &darr;</a>
-        <a href="https://github.com/maypaz/md.page" target="_blank" class="btn btn-github" onclick="trackClick('github_click')"><svg width="18" height="18" viewBox="0 0 16 16" fill="white"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> GitHub &#11088;</a>
-      </div>
-      <div class="anim d5">
+      <div class="anim d4">
         <div class="parade-label">Works with</div>
         <div class="parade">
           <div class="parade-item"><img src="/claude-logo.svg" alt="Claude Code"><span>Claude Code</span></div>
@@ -444,38 +444,6 @@ export function landingPageHtml(origin: string): string {
           <div class="parade-item"><img src="/nanoclaw-logo.svg" alt="Nanoclaw"><span>Nanoclaw</span></div>
           <div class="parade-sep"></div>
           <div class="parade-item"><img src="data:image/png;base64,${HERMES_LOGO_PNG_B64}" alt="Hermes" style="border-radius:5px;"><span>Hermes</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Demo -->
-  <section class="section demo scroll-anim">
-    <div class="section-inner">
-      <h2 class="section-heading">See it in action</h2>
-      <p class="section-sub">From terminal to shareable link in one command.</p>
-      <div class="demo-video">
-        <video autoplay loop muted playsinline preload="auto">
-          <source src="/lp.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <h3>Write Markdown</h3>
-          <p>Use your editor, AI agent, or CLI</p>
-          <span class="step-arrow">&rarr;</span>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <h3>Publish</h3>
-          <p style="font-family:var(--mono);font-size:0.78rem;">npx mdpage-cli README.md</p>
-          <span class="step-arrow">&rarr;</span>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <h3>Share</h3>
-          <p>Get a short link, expires in 24h</p>
         </div>
       </div>
     </div>
@@ -606,12 +574,6 @@ export function landingPageHtml(origin: string): string {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ event: event }),
       }).catch(function() {});
-    }
-
-    function scrollToTry(e) {
-      e.preventDefault();
-      document.getElementById('try-section').scrollIntoView({ behavior: 'smooth' });
-      trackClick('try_it_cta_click');
     }
 
     var clipSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
