@@ -30,7 +30,7 @@ const PROMPT_END = 260; // URL appears
 const CURSOR_APPEAR = 265;
 const CURSOR_CLICK = 278;
 const CURSOR_DISAPPEAR = 288;
-const TRANSITION_START = 288;
+const TRANSITION_START = CURSOR_DISAPPEAR;
 const BROWSER_START = 300;
 
 // Phase 6: End card
@@ -181,7 +181,7 @@ export const MdPageDemo: React.FC = () => {
             startX={50}
             startY={30}
             targetX={15}
-            targetY={33}
+            targetY={24}
           />
         </AbsoluteFill>
       )}

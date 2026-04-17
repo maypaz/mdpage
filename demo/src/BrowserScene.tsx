@@ -28,11 +28,9 @@ export const BrowserScene: React.FC<BrowserSceneProps> = ({
   return (
     <div
       style={{
-        width: "85%",
-        height: "82%",
-        borderRadius: 12,
+        width: "100%",
+        height: "100%",
         overflow: "hidden",
-        boxShadow: "0 25px 60px rgba(0,0,0,0.4)",
         display: "flex",
         flexDirection: "column",
         background: "#fff",

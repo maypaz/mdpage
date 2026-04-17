@@ -153,12 +153,10 @@ export const TerminalScene: React.FC<TerminalSceneProps> = ({
   return (
     <div
       style={{
-        width: "88%",
-        height: "82%",
+        width: "100%",
+        height: "100%",
         background: BG,
-        borderRadius: 8,
         overflow: "hidden",
-        boxShadow: "0 20px 50px rgba(0,0,0,0.6)",
         display: "flex",
         flexDirection: "column",
         fontFamily: MONO,

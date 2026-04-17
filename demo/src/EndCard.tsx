@@ -43,19 +43,18 @@ export const EndCard: React.FC = () => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        gap: 16,
+        fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
       }}
     >
-      {/* Logo: chevron icon + md.page text */}
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          gap: 16,
+          gap: 20,
           transform: `scale(${logoScale})`,
         }}
       >
-        <svg width="56" height="56" viewBox="0 0 48 48">
+        <svg width="72" height="72" viewBox="0 0 48 48">
           <rect width="48" height="48" rx="11" fill="#4285F4"/>
           <g stroke="#fff" strokeWidth="4.5" strokeLinecap="round" fill="none" transform="translate(11, 8)">
             <line x1="11" y1="2" x2="7" y2="32"/>
@@ -66,57 +65,39 @@ export const EndCard: React.FC = () => {
         </svg>
         <span
           style={{
-            fontSize: 48,
+            fontSize: 72,
             fontWeight: 700,
             color: "#1a1a1a",
-            fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-            letterSpacing: -1,
+            letterSpacing: -2,
           }}
         >
           md.page
         </span>
       </div>
 
-      {/* Tagline */}
       <div
         style={{
-          fontSize: 20,
+          fontSize: 32,
           color: "#6b7280",
-          fontFamily: "-apple-system, BlinkMacSystemFont, sans-serif",
           opacity: taglineOpacity,
           transform: `translateY(${taglineY}px)`,
-          marginTop: 4,
+          marginTop: 24,
         }}
       >
-        Markdown in, beautiful page out. ✨
+        Markdown in, beautiful page out.
       </div>
 
-      {/* Free & open source */}
       <div
         style={{
-          fontSize: 16,
-          fontWeight: 600,
-          color: "#1a1a1a",
-          fontFamily: "-apple-system, BlinkMacSystemFont, sans-serif",
+          fontSize: 24,
+          fontWeight: 500,
+          color: "#9ca3af",
           opacity: subtitleOpacity,
           transform: `translateY(${subtitleY}px)`,
-          marginTop: 8,
+          marginTop: 16,
         }}
       >
-        Free &amp; open source.
-      </div>
-
-      {/* No accounts line */}
-      <div
-        style={{
-          fontSize: 14,
-          color: "#6b7280",
-          fontFamily: "-apple-system, BlinkMacSystemFont, sans-serif",
-          opacity: subtitleOpacity,
-          transform: `translateY(${subtitleY}px)`,
-        }}
-      >
-        No accounts, no API keys, no limits.
+        Free &amp; Open Source
       </div>
     </div>
   );
