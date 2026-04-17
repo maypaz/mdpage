@@ -90,7 +90,7 @@ export function pageTemplate(content: string, options: TemplateOptions = {}): st
     hr { border: none; border-top: 1px solid #e5e7eb; margin: 1.5em 0; }
     /* Header */
     .site-header { position: sticky; top: 0; z-index: 100; background: rgba(250,250,250,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid #e5e7eb; }
-    .header-inner { max-width: 720px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 10px 24px; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; padding: 10px 24px; }
     .header-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
     .header-logo-text { font-family: ui-monospace, 'SF Mono', SFMono-Regular, 'Courier New', monospace; font-size: 1rem; font-weight: 700; letter-spacing: -0.5px; color: #1a1a1a; }
     .header-nav { display: flex; align-items: center; gap: 8px; }
