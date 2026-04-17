@@ -3,7 +3,7 @@ import { cors } from "hono/cors";
 import MarkdownIt from "markdown-it";
 import type { Env, PageData } from "./types";
 import { generateId, extractMeta, emit, escapeHtml } from "./utils";
-import { FAVICON_SVG, CLAUDE_LOGO_SVG, LOGO_SVG, OG_IMAGE_PNG_B64 } from "./assets";
+import { FAVICON_SVG, CLAUDE_LOGO_SVG, CURSOR_LOGO_SVG, OPENCLAW_LOGO_SVG, NANOCLAW_LOGO_SVG, LOGO_SVG, OG_IMAGE_PNG_B64 } from "./assets";
 import { renderOgPng, renderLandingOgPng } from "./og";
 import { pageTemplate, expiredPageHtml, landingPageHtml, privacyPageHtml, loginPageHtml } from "./templates";
 import { auth, getUserFromCookie } from "./auth";
@@ -28,6 +28,7 @@ md.renderer.rules.fence = (tokens, idx, options, env, self) => {
 };
 
 const TTL = 86400; // 24 hours
+const OG_IMAGE_FALLBACK = Uint8Array.from(atob(OG_IMAGE_PNG_B64), c => c.charCodeAt(0));
 
 // Subdomain routing — intercept requests to username.md.page
 // Let /api/* and /auth/* fall through to the main app so they work from subdomains
@@ -54,7 +55,7 @@ app.use("/api/*", cors({
 app.post("/api/event", async (c) => {
   try {
     const body = await c.req.json<{ event: string }>();
-    const allowed = ["github_click", "copy_prompt_click", "copy_skill_claude", "copy_skill_openclaw", "try_publish"];
+    const allowed = ["github_click", "copy_prompt_click", "copy_skill_claude", "copy_skill_openclaw", "copy_mcp", "copy_api_curl", "try_it_cta_click", "try_publish"];
     if (body.event && allowed.includes(body.event)) {
       emit(c.env, body.event);
     }
@@ -119,20 +120,20 @@ app.use("/api/pages/*", async (c, next) => {
 });
 app.route("/api", api);
 
-// Favicon
-app.get("/favicon.svg", (c) => {
-  return c.body(FAVICON_SVG, { headers: { "Content-Type": "image/svg+xml", "Cache-Control": "public, max-age=86400" } });
-});
-
-// Claude logo
-app.get("/claude-logo.svg", (c) => {
-  return c.body(CLAUDE_LOGO_SVG, { headers: { "Content-Type": "image/svg+xml", "Cache-Control": "public, max-age=86400" } });
-});
-
-// Logo
-app.get("/logo.svg", (c) => {
-  return c.body(LOGO_SVG, { headers: { "Content-Type": "image/svg+xml", "Cache-Control": "public, max-age=86400" } });
-});
+// SVG assets
+const svgAssets: Record<string, string> = {
+  "/favicon.svg": FAVICON_SVG,
+  "/claude-logo.svg": CLAUDE_LOGO_SVG,
+  "/cursor-logo.svg": CURSOR_LOGO_SVG,
+  "/openclaw-logo.svg": OPENCLAW_LOGO_SVG,
+  "/nanoclaw-logo.svg": NANOCLAW_LOGO_SVG,
+  "/logo.svg": LOGO_SVG,
+};
+for (const [path, svg] of Object.entries(svgAssets)) {
+  app.get(path, (c) => {
+    return c.body(svg, { headers: { "Content-Type": "image/svg+xml", "Cache-Control": "public, max-age=86400" } });
+  });
+}
 
 // Landing page video (served from R2)
 app.get("/lp.mp4", async (c) => {
@@ -147,7 +148,7 @@ app.get("/og-image.png", async (c) => {
     const pngData = await renderLandingOgPng();
     return new Response(pngData, { headers: { "Content-Type": "image/png", "Cache-Control": "public, max-age=86400" } });
   } catch {
-    const bytes = Uint8Array.from(atob(OG_IMAGE_PNG_B64), ch => ch.charCodeAt(0));
+    const bytes = OG_IMAGE_FALLBACK;
     return new Response(bytes, { headers: { "Content-Type": "image/png", "Cache-Control": "public, max-age=3600" } });
   }
 });
@@ -161,7 +162,7 @@ app.get("/og/:filename", async (c) => {
 
   const stored = await c.env.PAGES.get(id);
   if (!stored) {
-    const bytes = Uint8Array.from(atob(OG_IMAGE_PNG_B64), ch => ch.charCodeAt(0));
+    const bytes = OG_IMAGE_FALLBACK;
     return new Response(bytes, { status: 404, headers: { "Content-Type": "image/png", "Cache-Control": "public, max-age=3600" } });
   }
   const page = JSON.parse(stored) as PageData;
@@ -170,7 +171,7 @@ app.get("/og/:filename", async (c) => {
     return new Response(pngData, { headers: { "Content-Type": "image/png", "Cache-Control": "public, max-age=86400" } });
   } catch (err) {
     console.error("OG image render failed");
-    const bytes = Uint8Array.from(atob(OG_IMAGE_PNG_B64), ch => ch.charCodeAt(0));
+    const bytes = OG_IMAGE_FALLBACK;
     return new Response(bytes, { headers: { "Content-Type": "image/png", "Cache-Control": "public, max-age=3600" } });
   }
 });

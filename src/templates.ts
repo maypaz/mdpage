@@ -1,4 +1,5 @@
 import { escapeHtml } from "./utils";
+import { HERMES_LOGO_PNG_B64 } from "./assets";
 import type { TemplateOptions } from "./types";
 
 export function pageTemplate(content: string, options: TemplateOptions = {}): string {
@@ -205,219 +206,363 @@ export function landingPageHtml(origin: string): string {
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <style>
+    :root {
+      --blue: #4285F4;
+      --blue-dark: #1a5fd6;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8f9fb;
+      --bg-gradient: linear-gradient(160deg, #f0f2f5, #e4e8ef);
+      --text-primary: #1a1a1a;
+      --text-secondary: #6b7280;
+      --text-tertiary: #9ca3af;
+      --border: #e5e7eb;
+      --card-bg: #ffffff;
+      --card-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      --card-shadow-hover: 0 8px 30px rgba(0,0,0,0.1);
+      --code-bg: #0d1117;
+      --code-text: #e6edf3;
+      --radius: 16px;
+      --mono: ui-monospace, 'SF Mono', SFMono-Regular, 'Courier New', monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; color: #1a1a1a; background: #f0f2f5; padding: 2rem 1rem; min-height: 100vh; }
-    .container { max-width: 720px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 3rem 2.5rem 2.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 30px rgba(0,0,0,0.04); text-align: center; }
-    .code-block { background: #0d1117; border-radius: 10px; margin: 0.75rem 0; overflow: hidden; }
-    .code-header { display: flex; align-items: center; padding: 0.6rem 1rem 0; gap: 0.4rem; }
-    .code-dot { width: 10px; height: 10px; border-radius: 50%; }
-    .code-dot-red { background: #ff5f57; }
-    .code-dot-yellow { background: #febc2e; }
-    .code-dot-green { background: #28c840; }
-    .code-label { color: #6e7681; font-size: 0.65rem; margin-left: auto; font-family: ui-monospace, monospace; text-transform: uppercase; letter-spacing: 0.05em; }
-    pre { background: #0d1117; color: #e6edf3; padding: 0.75rem 1rem 1rem; margin: 0; text-align: left; overflow-x: auto; }
-    code { font-size: 0.8rem; }
-    .cmd { color: #7ee787; }
-    .arg { color: #e6edf3; }
-    .flag { color: #79c0ff; }
-    .output { color: #6e7681; }
-    .str { color: #ffa657; }
-    .url { color: #79c0ff; }
-    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.6rem; border-radius: 10px; font-size: 0.95rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; color: #fff; transition: transform 0.15s, box-shadow 0.15s, background 0.15s; }
+    body { font-family: var(--sans); line-height: 1.6; color: var(--text-primary); background: var(--bg-primary); }
+    a { color: var(--blue); }
+
+    /* Sections */
+    .section { padding: 80px 24px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-heading { font-size: 2.25rem; font-weight: 700; text-align: center; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .section-sub { font-size: 1.1rem; color: var(--text-secondary); text-align: center; max-width: 720px; margin: 0 auto 2.5rem; }
+
+    /* Hero */
+    .hero { background: var(--bg-gradient); padding: 100px 24px 80px; text-align: center; }
+    .hero-logo { display: inline-flex; align-items: center; gap: 14px; margin-bottom: 1.5rem; }
+    .hero-logo-text { font-family: var(--mono); font-size: 48px; font-weight: 700; letter-spacing: -1px; color: var(--text-primary); }
+    .hero h1 { font-size: 3rem; font-weight: 700; letter-spacing: -0.025em; line-height: 1.15; margin-bottom: 1rem; }
+    .hero-sub { font-size: 1.2rem; color: var(--text-secondary); max-width: 560px; margin: 0 auto 2rem; line-height: 1.6; }
+    .hero-ctas { display: flex; gap: 12px; justify-content: center; margin-bottom: 2.5rem; }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 2rem; border-radius: 10px; font-size: 1rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; color: #fff; transition: transform 0.15s, box-shadow 0.15s, background 0.15s; }
     .btn:active { transform: scale(0.97); }
+    .btn-primary { background: linear-gradient(135deg, var(--blue), var(--blue-dark)); box-shadow: 0 2px 8px rgba(66,133,244,0.25); }
+    .btn-primary:hover { background: linear-gradient(135deg, #5a9af5, #2b6de0); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(66,133,244,0.35); }
     .btn-github { background: linear-gradient(135deg, #24292e, #40464d); box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
     .btn-github:hover { background: linear-gradient(135deg, #2d333b, #4a5058); box-shadow: 0 4px 14px rgba(0,0,0,0.2); transform: translateY(-1px); }
-    .logo-text { color: #1a1a1a; }
-    .subtitle { font-size: 1.15rem; color: #374151; margin-bottom: 0.6rem; font-weight: 400; }
-    .detail { font-size: 0.8rem; color: #6b7280; margin-bottom: 0.25rem; }
-    #copied-msg { margin-top: 0.4rem; color: #1a3a7a; font-size: 0.75rem; opacity: 0; transition: opacity 0.3s; }
-    .section-divider { display: flex; align-items: center; gap: 0.75rem; margin: 1.5rem 0 0.75rem; }
-    .section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: #e5e7eb; }
-    .section-label { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #9ca3af; white-space: nowrap; }
-    .skill-cards { display: flex; gap: 0.75rem; margin: 0.75rem 0; }
-    .skill-card { flex: 1; border: 1px solid #c7d6f5; border-radius: 10px; padding: 1rem 0.75rem 0.85rem; text-align: left; background: #eef3ff; transition: border-color 0.2s, box-shadow 0.2s; }
-    .skill-card:hover { border-color: #93b4f5; box-shadow: 0 2px 8px rgba(66,133,244,0.12); }
-    .skill-card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
-    .skill-card-logo { width: 22px; height: 22px; flex-shrink: 0; border-radius: 4px; }
-    .skill-card-name { font-size: 0.85rem; font-weight: 600; color: #1a1a1a; }
-    .skill-card-cmd-row { display: flex; align-items: center; gap: 0.4rem; }
-    .skill-card-cmd { flex: 1; font-family: ui-monospace, 'SF Mono', monospace; font-size: 0.72rem; color: #4b6a9b; background: #dce6f8; border-radius: 5px; padding: 0.4rem 0.6rem; word-break: break-all; }
-    .skill-copy-btn { flex-shrink: 0; background: none; border: 1px solid #c7d6f5; border-radius: 5px; padding: 0.35rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s, border-color 0.15s; }
-    .skill-copy-btn:hover { background: #dce6f8; border-color: #93b4f5; }
-    .skill-copy-btn svg { width: 14px; height: 14px; color: #7a9fd4; }
-    .skill-copy-btn.copied svg { color: #16a34a; }
-    .skill-copy-btn.copied { border-color: #16a34a; }
-    .try-editor { text-align: left; margin: 0.75rem 0 0; }
-    .try-editor textarea {
-      width: 100%; height: 160px; resize: none; overflow: hidden;
-      font-family: ui-monospace, 'SF Mono', SFMono-Regular, 'Courier New', monospace;
-      font-size: 0.82rem; line-height: 1.55;
-      background: #0d1117; color: #e6edf3;
-      border: 1px solid #21262d; border-radius: 10px;
-      padding: 1rem; outline: none;
-      transition: border-color 0.2s;
+
+    /* Agent parade */
+    .parade-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-tertiary); margin-bottom: 0.75rem; }
+    .parade { display: inline-flex; align-items: center; gap: 20px; padding: 12px 28px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 40px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+    .parade-item { display: flex; align-items: center; gap: 8px; }
+    .parade-item img { width: 24px; height: 24px; border-radius: 5px; }
+    .parade-item span { font-size: 0.82rem; font-weight: 500; color: var(--text-primary); }
+    .parade-sep { width: 1px; height: 20px; background: var(--border); }
+
+    /* Demo */
+    .demo { background: var(--bg-primary); }
+    .demo-video { max-width: 900px; margin: 0 auto 3rem; border-radius: 14px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+    .demo-video video { width: 100%; display: block; }
+    .steps { display: flex; gap: 40px; justify-content: center; align-items: flex-start; max-width: 700px; margin: 0 auto; }
+    .step { flex: 1; text-align: center; position: relative; }
+    .step-num { width: 36px; height: 36px; border-radius: 50%; background: var(--blue); color: #fff; font-size: 0.9rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 0.75rem; }
+    .step h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.35rem; }
+    .step p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+    .step-arrow { position: absolute; top: 18px; right: -28px; color: var(--text-tertiary); font-size: 1.2rem; }
+
+    /* Agents */
+    .agents { background: var(--bg-secondary); }
+    .agents .parade { margin-bottom: 2.5rem; }
+    .int-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .int-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 24px 24px; display: flex; flex-direction: column; box-shadow: var(--card-shadow); transition: box-shadow 0.2s, transform 0.2s; }
+    .int-card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-2px); }
+    .int-card-title { font-size: 1.3rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.75rem; text-align: center; }
+    .int-card-title.blue { color: var(--blue); }
+    .int-card-title.green { color: #16a34a; }
+    .int-card-title.purple { color: #7c3aed; }
+    .int-card-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55; margin-bottom: 16px; }
+    .int-code-wrap { background: var(--code-bg); border-radius: 10px; overflow: hidden; margin-top: auto; flex: 1; display: flex; flex-direction: column; }
+    .int-code-header { display: flex; align-items: center; padding: 10px 16px; gap: 6px; background: #161b22; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-red { background: #ff5f57; }
+    .dot-yellow { background: #febc2e; }
+    .dot-green { background: #28c840; }
+    .int-code-label { color: #6e7681; font-size: 0.6rem; margin-left: auto; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.05em; }
+    .int-code { padding: 14px 16px; font-family: var(--mono); font-size: 0.8rem; color: var(--code-text); line-height: 1.7; position: relative; overflow-x: auto; flex: 1; }
+    .int-copy-btn { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+    .int-copy-btn:hover { background: rgba(255,255,255,0.15); }
+    .int-copy-btn svg { width: 14px; height: 14px; color: #8b949e; }
+    .int-copy-btn.copied svg { color: #7ee787; }
+    .cmd-green { color: #7ee787; }
+    .cmd-blue { color: #79c0ff; }
+    .cmd-orange { color: #ffa657; }
+    .cmd-white { color: #e6edf3; }
+    .cmd-dim { color: #6e7681; }
+    .prompt-link { text-align: center; margin-top: 2rem; }
+    .prompt-link button { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--card-bg); border: 1px solid var(--border); color: var(--text-primary); cursor: pointer; font-size: 0.85rem; font-weight: 500; font-family: var(--sans); padding: 0.65rem 1.4rem; border-radius: 10px; transition: all 0.2s; box-shadow: var(--card-shadow); }
+    .prompt-link button:hover { border-color: var(--blue); color: var(--blue); transform: translateY(-1px); box-shadow: var(--card-shadow-hover); }
+    .prompt-link button svg { width: 16px; height: 16px; flex-shrink: 0; }
+    #copied-msg { text-align: center; margin-top: 0.5rem; color: var(--blue); font-size: 0.78rem; opacity: 0; transition: opacity 0.3s; }
+
+    /* Try it */
+    .try-section { background: var(--bg-gradient); }
+    .try-inner { max-width: 800px; margin: 0 auto; }
+    .try-terminal { background: var(--code-bg); border-radius: 14px; overflow: hidden; border: 2px solid #21262d; }
+    .try-terminal-header { display: flex; align-items: center; padding: 10px 16px; gap: 6px; background: #161b22; }
+    .try-terminal textarea {
+      width: 100%; height: 200px; resize: none; overflow: hidden;
+      font-family: var(--mono); font-size: 0.85rem; line-height: 1.55;
+      background: var(--code-bg); color: var(--code-text);
+      border: none; padding: 1rem 1.25rem; outline: none;
     }
-    .try-editor textarea:focus { border-color: #4285F4; }
-    .try-editor textarea::placeholder { color: #8b949e; }
+    .try-terminal textarea::placeholder { color: #8b949e; }
+    .try-actions { display: flex; align-items: center; gap: 0.75rem; margin-top: 1rem; }
     .try-publish-btn {
       display: inline-flex; align-items: center; gap: 0.5rem;
-      margin-top: 0.6rem; padding: 0.7rem 1.6rem;
-      background: linear-gradient(135deg, #4285F4, #1a5fd6);
+      padding: 0.8rem 2rem;
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
       color: #fff; border: none; border-radius: 10px;
-      font-size: 0.95rem; font-weight: 600;
+      font-size: 1rem; font-weight: 600;
       cursor: pointer; transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
       box-shadow: 0 2px 8px rgba(66,133,244,0.25);
     }
     .try-publish-btn:hover { background: linear-gradient(135deg, #5a9af5, #2b6de0); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(66,133,244,0.35); }
     .try-publish-btn:active { transform: scale(0.97); }
     .try-publish-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
-    .try-status { font-size: 0.78rem; margin-top: 0.4rem; min-height: 1.2em; }
-    .try-status a { color: #4285F4; }
+    .try-status { font-size: 0.85rem; min-height: 1.2em; }
+    .try-status a { color: var(--blue); }
     .try-status.error { color: #f87171; }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Footer */
+    .site-footer { display: flex; justify-content: space-between; align-items: flex-start; max-width: 1100px; margin: 0 auto; padding: 40px 24px; color: var(--text-tertiary); font-size: 0.75rem; line-height: 1.7; }
+    .site-footer a { color: var(--text-tertiary); text-decoration: none; transition: color 0.2s; }
+    .site-footer a:hover { color: var(--blue); }
+    .footer-brand { font-family: var(--mono); font-weight: 700; font-size: 0.85rem; color: var(--text-tertiary); letter-spacing: -0.02em; }
+    .footer-right { display: flex; flex-direction: column; gap: 0.3rem; align-items: flex-end; align-self: flex-end; }
+    .footer-right a { display: inline-flex; align-items: center; gap: 0.35rem; }
+
+    /* Animations */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     .anim { animation: fadeUp 0.5s ease-out both; }
     .d1 { animation-delay: 0.04s; } .d2 { animation-delay: 0.08s; } .d3 { animation-delay: 0.12s; }
-    .d4 { animation-delay: 0.16s; } .d5 { animation-delay: 0.2s; } .d6 { animation-delay: 0.24s; }
-    .d7 { animation-delay: 0.28s; } .d8 { animation-delay: 0.32s; } .d9 { animation-delay: 0.36s; }
-    .mobile-br { display: none; }
-    .site-footer { display: flex; justify-content: space-between; align-items: flex-start; max-width: 720px; margin: 2rem auto 0; padding: 0 1.5rem; color: #9ca3af; font-size: 0.72rem; line-height: 1.7; }
-    .site-footer a { color: #9ca3af; text-decoration: none; transition: color 0.2s; }
-    .site-footer a:hover { color: #1a3a7a; }
-    .site-footer .footer-brand { font-family: ui-monospace, 'SF Mono', monospace; font-weight: 700; font-size: 0.82rem; color: #9ca3af; letter-spacing: -0.02em; }
-    .site-footer .footer-right { display: flex; flex-direction: column; gap: 0.3rem; align-items: flex-end; align-self: flex-end; }
-    .site-footer .footer-right a { display: inline-flex; align-items: center; gap: 0.35rem; }
-    @media (max-width: 480px) {
-      body { padding: 0.75rem 0.5rem; }
-      .container { padding: 2rem 1.25rem 1.5rem; border-radius: 12px; }
-      .btn { justify-content: center; width: 100%; }
-      pre { font-size: 0.7rem; overflow-x: hidden; white-space: pre-wrap; word-break: break-all; }
-      .code-block { margin: 0.5rem 0; }
-      .skill-cards { flex-direction: column; }
-      .features { gap: 0.35rem; }
-      .site-footer { flex-direction: column; align-items: center; text-align: center; gap: 0.5rem; }
-      .site-footer > div { align-items: center; }
-      .site-footer .footer-right { flex-direction: row; justify-content: center; align-self: center; gap: 1rem; }
-      .mobile-br { display: inline; }
+    .d4 { animation-delay: 0.16s; } .d5 { animation-delay: 0.2s; }
+    .scroll-anim { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+    .scroll-anim.visible { opacity: 1; transform: translateY(0); }
+
+    /* Tablet */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.25rem; }
+      .hero-logo-text { font-size: 38px; }
+      .section-heading { font-size: 1.75rem; }
+      .int-cards { grid-template-columns: 1fr 1fr; }
+      .int-cards .int-card:last-child { grid-column: 1 / -1; }
+      .steps { gap: 24px; }
+      .step-arrow { display: none; }
+      .parade { gap: 14px; padding: 10px 20px; flex-wrap: wrap; justify-content: center; }
     }
+
+    /* Mobile */
+    @media (max-width: 480px) {
+      .hero { padding: 64px 20px 48px; }
+      .hero h1 { font-size: 1.75rem; }
+      .hero-logo-text { font-size: 32px; }
+      .hero-sub { font-size: 1rem; }
+      .hero-ctas { flex-direction: column; align-items: stretch; }
+      .btn { justify-content: center; }
+      .section { padding: 48px 16px; }
+      .section-heading { font-size: 1.5rem; }
+      .section-sub { font-size: 0.95rem; }
+      .int-cards { grid-template-columns: 1fr; }
+      .int-cards .int-card:last-child { grid-column: auto; }
+      .steps { flex-direction: column; gap: 20px; }
+      .step-arrow { display: none; }
+      .parade { gap: 10px; padding: 10px 16px; }
+      .parade-item span { font-size: 0.72rem; }
+      .parade-item img { width: 20px; height: 20px; }
+      .int-code { font-size: 0.7rem; }
+      .demo-video { border-radius: 10px; }
+      .site-footer { flex-direction: column; align-items: center; text-align: center; gap: 0.75rem; }
+      .site-footer > div { align-items: center; }
+      .footer-right { flex-direction: row; justify-content: center; align-self: center; gap: 1rem; }
+    }
+
+    /* Dark mode */
     @media (prefers-color-scheme: dark) {
-      body { background: #0a0a0a; color: #e5e5e5; }
-      .container { background: #161616; box-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 8px 30px rgba(0,0,0,0.25); }
-      .logo-text { color: #fff; }
-      .subtitle { color: #b0b0b0; }
-      .detail { color: #888; }
+      :root {
+        --bg-primary: #0a0a0a;
+        --bg-secondary: #111111;
+        --bg-gradient: linear-gradient(160deg, #0a0a0a, #111118);
+        --text-primary: #e5e5e5;
+        --text-secondary: #b0b0b0;
+        --text-tertiary: #666;
+        --border: #2a2a2a;
+        --card-bg: #161616;
+        --card-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        --card-shadow-hover: 0 8px 30px rgba(0,0,0,0.4);
+      }
       .btn-github { background: #2a2a2a; border: 1px solid #444; }
       .btn-github:hover { background: #333; }
+      .parade { background: var(--card-bg); border-color: var(--border); }
+      .try-terminal { border-color: #30363d; }
+      .try-terminal-header { background: #0d1117; }
+      .demo-video { box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
       #copied-msg { color: #60a5fa; }
-      .section-divider::before, .section-divider::after { background: #2a2a2a; }
-      .section-label { color: #555; }
-      .skill-card { border-color: #1e3a6e; background: #0f1f3d; }
-      .skill-card:hover { border-color: #2a5098; box-shadow: 0 2px 12px rgba(66,133,244,0.15); }
-      .skill-card-name { color: #e5e5e5; }
-      .skill-card-cmd { background: #0a1628; color: #7a9fd4; }
-      .skill-copy-btn { border-color: #1e3a6e; }
-      .skill-copy-btn:hover { background: #152d5a; border-color: #2a5098; }
-      .skill-copy-btn svg { color: #4a7ab5; }
-      .try-editor textarea { background: #0d1117; color: #e6edf3; border-color: #21262d; }
-      .try-editor textarea::placeholder { color: #8b949e; }
       .try-status a { color: #60a5fa; }
-      .try-status.error { color: #f87171; }
-      .site-footer { color: #555; }
-      .site-footer a { color: #555; }
-      .site-footer a:hover { color: #60a5fa; }
-      .site-footer .footer-brand { color: #555; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="anim d1" style="display: inline-flex; align-items: center; gap: 12px; margin-bottom: 0.25rem;">
-      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-        <rect width="48" height="48" rx="11" fill="#4285F4"/>
-        <g stroke="#fff" stroke-width="4.5" stroke-linecap="round" fill="none" transform="translate(11, 8)">
-          <line x1="11" y1="2" x2="7" y2="32"/>
-          <line x1="21" y1="2" x2="17" y2="32"/>
-          <line x1="4" y1="11" x2="25" y2="11"/>
-          <line x1="3" y1="23" x2="24" y2="23"/>
-        </g>
-      </svg>
-      <span class="logo-text" style="font-family: ui-monospace, 'SF Mono', SFMono-Regular, 'Courier New', monospace; font-size: 42px; font-weight: 700; letter-spacing: -1px;">md.page</span>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="section-inner">
+      <div class="hero-logo anim d1">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+          <rect width="48" height="48" rx="11" fill="#4285F4"/>
+          <g stroke="#fff" stroke-width="4.5" stroke-linecap="round" fill="none" transform="translate(11, 8)">
+            <line x1="11" y1="2" x2="7" y2="32"/>
+            <line x1="21" y1="2" x2="17" y2="32"/>
+            <line x1="4" y1="11" x2="25" y2="11"/>
+            <line x1="3" y1="23" x2="24" y2="23"/>
+          </g>
+        </svg>
+        <span class="hero-logo-text">md.page</span>
+      </div>
+      <h1 class="anim d2">Markdown in, shareable page out.</h1>
+      <p class="hero-sub anim d3">Turn any Markdown into a beautiful web page in seconds.<br>No signup. No setup. Auto-expires in 24h.</p>
+      <div class="hero-ctas anim d4">
+        <a href="#try-section" class="btn btn-primary" onclick="scrollToTry(event)">Try it live &darr;</a>
+        <a href="https://github.com/maypaz/md.page" target="_blank" class="btn btn-github" onclick="trackClick('github_click')"><svg width="18" height="18" viewBox="0 0 16 16" fill="white"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> GitHub &#11088;</a>
+      </div>
+      <div class="anim d5">
+        <div class="parade-label">Works with</div>
+        <div class="parade">
+          <div class="parade-item"><img src="/claude-logo.svg" alt="Claude Code"><span>Claude Code</span></div>
+          <div class="parade-sep"></div>
+          <div class="parade-item"><img src="/cursor-logo.svg" alt="Cursor"><span>Cursor</span></div>
+          <div class="parade-sep"></div>
+          <div class="parade-item"><img src="/openclaw-logo.svg" alt="OpenClaw"><span>OpenClaw</span></div>
+          <div class="parade-sep"></div>
+          <div class="parade-item"><img src="/nanoclaw-logo.svg" alt="Nanoclaw"><span>Nanoclaw</span></div>
+          <div class="parade-sep"></div>
+          <div class="parade-item"><img src="data:image/png;base64,${HERMES_LOGO_PNG_B64}" alt="Hermes" style="border-radius:5px;"><span>Hermes</span></div>
+        </div>
+      </div>
     </div>
-    <p class="subtitle anim d2">Instantly turn Markdown into a shareable web page.<br>100% free. No signup. Auto-expires in 24h.</p>
-    <div class="anim d3" style="margin-top: 0.75rem;">
-      <a href="https://github.com/maypaz/md.page" target="_blank" class="btn btn-github" onclick="trackClick('github_click')"><svg width="18" height="18" viewBox="0 0 16 16" fill="white"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> GitHub &#11088;</a>
+  </section>
+
+  <!-- Demo -->
+  <section class="section demo scroll-anim">
+    <div class="section-inner">
+      <h2 class="section-heading">See it in action</h2>
+      <p class="section-sub">From terminal to shareable link in one command.</p>
+      <div class="demo-video">
+        <video autoplay loop muted playsinline preload="auto">
+          <source src="/lp.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Write Markdown</h3>
+          <p>Use your editor, AI agent, or CLI</p>
+          <span class="step-arrow">&rarr;</span>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Publish</h3>
+          <p style="font-family:var(--mono);font-size:0.78rem;">npx mdpage-cli README.md</p>
+          <span class="step-arrow">&rarr;</span>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Share</h3>
+          <p>Get a short link, expires in 24h</p>
+        </div>
+      </div>
     </div>
-    <div class="anim d3" style="margin-top: 1.25rem;">
-      <video autoplay loop muted playsinline preload="auto" style="width: 100%; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.12); overflow-anchor: none;">
-        <source src="/lp.mp4" type="video/mp4">
-      </video>
-    </div>
-    <div class="section-divider anim d4"><span class="section-label">Add to your AI agent</span></div>
-    <div class="anim d4">
-      <div class="skill-cards">
-        <div class="skill-card">
-          <div class="skill-card-header">
-            <img class="skill-card-logo" src="/claude-logo.svg" alt="Claude">
-            <span class="skill-card-name">Claude Code</span>
-          </div>
-          <div class="skill-card-cmd-row">
-            <div class="skill-card-cmd">npx skills add maypaz/md.page</div>
-            <button class="skill-copy-btn" id="copy-btn-claude" onclick="copySkill('claude')" title="Copy to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+  </section>
+
+  <!-- AI Agents -->
+  <section class="section agents scroll-anim">
+    <div class="section-inner" style="text-align:center;">
+      <h2 class="section-heading">Built for AI agents</h2>
+      <p class="section-sub">Your AI can publish Markdown as a beautiful web page with a single tool call.</p>
+      <div class="int-cards" style="text-align:left;">
+        <div class="int-card">
+          <div class="int-card-title blue">Skills</div>
+          <p class="int-card-desc">Install the md.page skill and ask your agent to &ldquo;share this as a web page&rdquo;. It just works.</p>
+          <div class="int-code-wrap">
+            <div class="int-code-header"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span><span class="int-code-label">Terminal</span></div>
+            <div class="int-code">
+              <button class="int-copy-btn" id="copy-btn-claude" onclick="copySkill('claude')" title="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+              <span class="cmd-dim"># Claude Code</span><br>
+              <span class="cmd-dim">$</span> <span class="cmd-green">npx</span> <span class="cmd-white">skills add maypaz/md.page</span><br>
+              <br>
+              <span class="cmd-dim"># OpenClaw</span><br>
+              <span class="cmd-dim">$</span> <span class="cmd-green">npx</span> <span class="cmd-white">clawhub@latest install</span><br>
+              <span class="cmd-white">&nbsp; publish-to-mdpage</span>
+            </div>
           </div>
         </div>
-        <div class="skill-card">
-          <div class="skill-card-header">
-            <span style="font-size: 1.25rem; line-height: 1;">&#129438;</span>
-            <span class="skill-card-name">OpenClaw</span>
+        <div class="int-card">
+          <div class="int-card-title green">MCP Server</div>
+          <p class="int-card-desc">Add md.page as an MCP server. Works with any agent that supports the Model Context Protocol.</p>
+          <div class="int-code-wrap">
+            <div class="int-code-header"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span><span class="int-code-label">JSON</span></div>
+            <div class="int-code">
+              <button class="int-copy-btn" id="copy-btn-mcp" onclick="copyMcp()" title="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+              <span class="cmd-blue">"mcpServers"</span><span class="cmd-white">: {</span><br>
+              <span class="cmd-white">&nbsp; </span><span class="cmd-blue">"mdpage"</span><span class="cmd-white">: {</span><br>
+              <span class="cmd-white">&nbsp; &nbsp; </span><span class="cmd-blue">"command"</span><span class="cmd-white">: </span><span class="cmd-orange">"npx"</span><span class="cmd-white">,</span><br>
+              <span class="cmd-white">&nbsp; &nbsp; </span><span class="cmd-blue">"args"</span><span class="cmd-white">: [</span><span class="cmd-orange">"-y"</span><span class="cmd-white">, </span><span class="cmd-orange">"mdpage-mcp"</span><span class="cmd-white">]</span><br>
+              <span class="cmd-white">}}</span>
+            </div>
           </div>
-          <div class="skill-card-cmd-row">
-            <div class="skill-card-cmd">npx clawhub@latest install publish-to-mdpage</div>
-            <button class="skill-copy-btn" id="copy-btn-openclaw" onclick="copySkill('openclaw')" title="Copy to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+        </div>
+        <div class="int-card">
+          <div class="int-card-title purple">API</div>
+          <p class="int-card-desc">One HTTP call is all it takes. Any agent or LLM that can make requests works out of the box.</p>
+          <div class="int-code-wrap">
+            <div class="int-code-header"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span><span class="int-code-label">API</span></div>
+            <div class="int-code">
+              <button class="int-copy-btn" id="copy-btn-api" onclick="copyApiCurl()" title="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+              <span class="cmd-dim">$</span> <span class="cmd-green">curl</span> <span class="cmd-blue">-X POST</span> \\<br>
+              <span class="cmd-white">&nbsp; </span><span class="cmd-orange">${origin}/api/publish</span> \\<br>
+              <span class="cmd-white">&nbsp; </span><span class="cmd-blue">-d</span> <span class="cmd-orange">'{"markdown": "..."}'</span><br>
+              <br>
+              <span class="cmd-dim"># &rarr; {"url": "${origin}/kR4x9p"}</span>
+            </div>
           </div>
         </div>
       </div>
-      <p class="detail" style="margin-top: 0.5rem;"><button onclick="copyAgentPrompt()" style="background: none; border: none; color: #6b7280; cursor: pointer; font-size: 0.8rem; text-decoration: underline; padding: 0;">Using another agent? Copy this prompt instead</button></p>
+      <div class="prompt-link">
+        <button onclick="copyAgentPrompt()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy prompt for any AI agent</button>
+      </div>
       <p id="copied-msg">Copied! Paste it into any AI agent.</p>
     </div>
-    <div class="section-divider anim d5"><span class="section-label">Or use directly</span></div>
-    <div class="anim d5">
-      <div class="code-block">
-        <div class="code-header">
-          <span class="code-dot code-dot-red"></span>
-          <span class="code-dot code-dot-yellow"></span>
-          <span class="code-dot code-dot-green"></span>
-          <span class="code-label">Terminal</span>
-        </div>
-        <pre><code><span class="output">$</span> <span class="cmd">npx</span> <span class="arg">mdpage-cli</span> <span class="flag">README.md</span>
+  </section>
 
-  <span class="output">Published &rarr;</span> <span class="url">https://md.page/a8Xk2m</span>
-  <span class="output">Expires in 24h</span></code></pre>
-      </div>
-    </div>
-    <div class="anim d6">
-      <p class="detail" style="margin: 0.5rem 0;">or use the API directly:</p>
-      <div class="code-block">
-        <div class="code-header">
-          <span class="code-dot code-dot-red"></span>
-          <span class="code-dot code-dot-yellow"></span>
-          <span class="code-dot code-dot-green"></span>
-          <span class="code-label">API</span>
+  <!-- Try it -->
+  <section class="section try-section scroll-anim" id="try-section">
+    <div class="try-inner">
+      <h2 class="section-heading">Try it now</h2>
+      <p class="section-sub">Paste some Markdown and see it live.</p>
+      <div class="try-terminal">
+        <div class="try-terminal-header">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
         </div>
-        <pre><code><span class="output">$</span> <span class="cmd">curl</span> <span class="flag">-X POST</span> <span class="url">https://md.page/api/publish</span> \\
-  <span class="flag">-d</span> <span class="str">'{"markdown": "# Hello World"}'</span>
-
-  <span class="output">&rarr;</span> <span class="str">{ "url": "https://md.page/a8Xk2m" }</span></code></pre>
+        <textarea id="try-md" placeholder="# Hello World\n\nPaste your **Markdown** here and hit publish.\n\n- Lists work\n- So do [links](https://example.com)\n- And \`inline code\`" spellcheck="false"></textarea>
       </div>
-    </div>
-    <div class="section-divider anim d7"><span class="section-label">Try it manually</span></div>
-    <div class="anim d7 try-editor">
-      <textarea id="try-md" placeholder="# Hello World\n\nPaste your **Markdown** here and hit publish.\n\n- Lists work\n- So do [links](https://example.com)\n- And \`inline code\`" spellcheck="false"></textarea>
-      <div style="display: flex; align-items: center; gap: 0.75rem;">
+      <div class="try-actions">
         <button class="try-publish-btn" id="try-publish" onclick="publishMarkdown()">Publish &#128640;</button>
         <span class="try-status" id="try-status"></span>
       </div>
     </div>
-  </div>
-  <div class="anim d9 site-footer">
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
     <div>
       <div style="display: inline-flex; align-items: center; gap: 6px; margin-bottom: 0.35rem;">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48">
@@ -431,16 +576,30 @@ export function landingPageHtml(origin: string): string {
         </svg>
         <span class="footer-brand">md.page</span>
       </div>
-      <div style="margin-bottom: 0.2rem;">Built by two developers<br class="mobile-br"> who got tired of screenshotting markdown.</div>
+      <div style="margin-bottom: 0.2rem;">Built by two developers who got tired of screenshotting markdown.</div>
       <div><a href="https://www.linkedin.com/in/maypaz/" target="_blank">Or May-Paz</a> &amp; <a href="https://www.linkedin.com/in/matanl/" target="_blank">Matan Lachmish</a></div>
     </div>
     <div class="footer-right">
       <a href="https://github.com/maypaz/md.page" target="_blank"><svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> GitHub</a>
       <a href="/privacy">Privacy</a>
     </div>
-  </div>
+  </footer>
+
   <script>
     window.scrollTo(0, 0);
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.scroll-anim').forEach(function(el) {
+      observer.observe(el);
+    });
+
     function trackClick(event) {
       fetch('/api/event', {
         method: 'POST',
@@ -448,25 +607,52 @@ export function landingPageHtml(origin: string): string {
         body: JSON.stringify({ event: event }),
       }).catch(function() {});
     }
-    function copySkill(type) {
-      var cmds = { claude: 'npx skills add maypaz/md.page', openclaw: 'npx clawhub@latest install publish-to-mdpage' };
-      navigator.clipboard.writeText(cmds[type]);
-      var btn = document.getElementById('copy-btn-' + type);
+
+    function scrollToTry(e) {
+      e.preventDefault();
+      document.getElementById('try-section').scrollIntoView({ behavior: 'smooth' });
+      trackClick('try_it_cta_click');
+    }
+
+    var clipSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+    var checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+
+    function flashCopy(btnId) {
+      var btn = document.getElementById(btnId);
       btn.classList.add('copied');
-      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+      btn.innerHTML = checkSvg;
       setTimeout(function() {
         btn.classList.remove('copied');
-        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+        btn.innerHTML = clipSvg;
       }, 2000);
-      trackClick('copy_skill_' + type);
     }
+
+    function copyAndTrack(text, btnId, event) {
+      navigator.clipboard.writeText(text);
+      flashCopy(btnId);
+      trackClick(event);
+    }
+
+    function copySkill(type) {
+      var cmds = { claude: 'npx skills add maypaz/md.page', openclaw: 'npx clawhub@latest install publish-to-mdpage' };
+      copyAndTrack(cmds[type], 'copy-btn-claude', 'copy_skill_' + type);
+    }
+
+    function copyMcp() {
+      copyAndTrack(JSON.stringify({"mcpServers":{"mdpage":{"command":"npx","args":["-y","mdpage-mcp"]}}}, null, 2), 'copy-btn-mcp', 'copy_mcp');
+    }
+
+    function copyApiCurl() {
+      copyAndTrack('curl -X POST ${origin}/api/publish -H "Content-Type: application/json" -d \\'{"markdown": "# Hello World"}\\'', 'copy-btn-api', 'copy_api_curl');
+    }
+
     function publishMarkdown() {
       var md = document.getElementById('try-md').value.trim();
       var btn = document.getElementById('try-publish');
       var status = document.getElementById('try-status');
       if (!md) { md = document.getElementById('try-md').placeholder; }
       btn.disabled = true;
-      btn.textContent = 'Publishing\u2026';
+      btn.textContent = 'Publishing\\u2026';
       status.className = 'try-status'; status.textContent = '';
       fetch('/api/publish', {
         method: 'POST',
@@ -490,10 +676,11 @@ export function landingPageHtml(origin: string): string {
         btn.innerHTML = 'Publish &#128640;';
       });
     }
+
     function copyAgentPrompt() {
       navigator.clipboard.writeText("From now on, whenever I ask you to share or publish a markdown file, use the md.page API to create a shareable HTML page. Send a POST request to https://md.page/api/publish with the body {\\"markdown\\": \\"<content>\\"} and return the shareable URL to me.");
       document.getElementById('copied-msg').style.opacity = '1';
-      setTimeout(() => document.getElementById('copied-msg').style.opacity = '0', 3000);
+      setTimeout(function() { document.getElementById('copied-msg').style.opacity = '0'; }, 3000);
       trackClick('copy_prompt_click');
     }
   </script>
