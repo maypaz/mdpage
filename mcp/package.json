@@ -1,6 +1,6 @@
 {
   "name": "mdpage-mcp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "MCP server for md.page — give AI agents the ability to publish markdown as beautiful shareable web pages",
   "type": "module",
   "bin": {
@@ -34,6 +34,7 @@
   },
   "homepage": "https://md.page",
   "dependencies": {
+    "@modelcontextprotocol/ext-apps": "^1.6.0",
     "@modelcontextprotocol/sdk": "^1.12.0",
     "zod": "^3.25.0"
   },
